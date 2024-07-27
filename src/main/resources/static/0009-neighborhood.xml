@@ -1,0 +1,19 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="9" author="igor">
+        <createTable tableName="neighborhood">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="developer" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(200)"/>
+            <column name="city" type="varchar(200)"/>
+            <column name="address" type="varchar(300)"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
