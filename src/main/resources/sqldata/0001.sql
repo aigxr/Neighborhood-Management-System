@@ -27,8 +27,8 @@ VALUES
 INSERT INTO
     `block`(name, neighborhood_id)
 VALUES
-    ('A', 1),
-    ('B', 1);
+    ('A', 1);
+--     ('B', 1);
 
 -- FLAT --!>
 
