@@ -3,14 +3,12 @@ package pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.Mapper.NeighborhoodDtoMapper;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.NeighborhoodDto;
-import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Neighborhood;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.ADDITIONALS.StaticMethods;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Service.NeighborhoodService;
 
 import java.util.List;
@@ -39,7 +37,7 @@ public class NeighborhoodController {
     @PostMapping("/create/neighborhood")
     public ResponseEntity<?> createNeighborhood(@Valid @RequestBody NeighborhoodDto dto, BindingResult result) {
         if (result.hasErrors()) {
-            List<String> errors = checkForErrors(result);
+            List<String> errors = StaticMethods.checkForErrors(result);
             return ResponseEntity.badRequest().body(errors);
         }
         NeighborhoodDto neighborhood = neighborhoodService.createNeighborhood(dto);
@@ -51,7 +49,7 @@ public class NeighborhoodController {
                                                 @Valid @RequestBody NeighborhoodDto dto,
                                                 BindingResult result) {
         if (result.hasErrors()) {
-            List<String> errors = checkForErrors(result);
+            List<String> errors = StaticMethods.checkForErrors(result);
             return ResponseEntity.badRequest().body(errors);
         }
         NeighborhoodDto updatedDto = neighborhoodService.updateNeighborhood(id, dto); // NEEDS TO RETURN TO BE CHECKED IN TESTS
@@ -61,12 +59,6 @@ public class NeighborhoodController {
     @DeleteMapping("/delete/neighborhood/{id}")
     public void deleteNeighborhood(@PathVariable(value = "id") Long id) {
         neighborhoodService.deleteNeighborhood(id);
-    }
-
-    private static List<String> checkForErrors(BindingResult result) {
-        return result.getAllErrors()
-                .stream().map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .toList();
     }
 
 }

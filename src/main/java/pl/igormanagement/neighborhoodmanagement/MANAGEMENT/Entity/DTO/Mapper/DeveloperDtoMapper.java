@@ -13,14 +13,19 @@ public class DeveloperDtoMapper {
         dto.setId(developer.getId());
         dto.setFirstName(developer.getFirstName());
         dto.setLastName(developer.getLastName());
+        dto.setPESEL(developer.getPESEL());
+        dto.setAddress(developer.getAddress());
+        dto.setBirthDate(developer.getBirthDate());
         return dto;
     }
 
     public static Developer map(DeveloperDto dto) {
         Developer developer = new Developer();
-        developer.setId(dto.getId());
         developer.setFirstName(dto.getFirstName());
         developer.setLastName(dto.getLastName());
+        developer.setPESEL(dto.getPESEL());
+        developer.setAddress(dto.getAddress());
+        developer.setBirthDate(dto.getBirthDate());
         return developer;
     }
 }

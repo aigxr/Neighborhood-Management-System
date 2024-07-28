@@ -2,21 +2,15 @@ package pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.DeveloperDto;
-import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.Mapper.DeveloperDtoMapper;
-import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Developer;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.ADDITIONALS.StaticMethods;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Service.DeveloperService;
 
-import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,11 +32,11 @@ public class DeveloperController {
         }
     }
 
-    @PostMapping("/add/developer")
+    @PostMapping("/create/developer")
     public ResponseEntity<?> createDeveloper(@Valid @RequestBody DeveloperDto dto,
                                           BindingResult result) {
         if (result.hasErrors()) {
-            List<String> errors = checkForErrors(result);
+            List<String> errors = StaticMethods.checkForErrors(result);
             return ResponseEntity.badRequest().body(errors);
         }
         DeveloperDto developer = developerService.createDeveloper(dto);
@@ -54,7 +48,7 @@ public class DeveloperController {
                                              @Valid @RequestBody DeveloperDto dto,
                                              BindingResult result) {
         if (result.hasErrors()) {
-            List<String> errors = checkForErrors(result);
+            List<String> errors = StaticMethods.checkForErrors(result);
             return ResponseEntity.badRequest().body(errors);
         }
         DeveloperDto savedDto = developerService.updateDeveloper(id, dto);
@@ -64,11 +58,5 @@ public class DeveloperController {
     @DeleteMapping("/delete/developer/{id}")
     public void deleteDeveloper(@PathVariable Long id) {
         developerService.deleteDeveloper(id);
-    }
-
-    private static List<String> checkForErrors(BindingResult result) {
-        return result.getAllErrors()
-                .stream().map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .toList();
     }
 }

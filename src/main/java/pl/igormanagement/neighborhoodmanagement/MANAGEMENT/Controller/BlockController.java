@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.BlockDto;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.ADDITIONALS.StaticMethods;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Service.BlockService;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class BlockController {
     public ResponseEntity<?> createBlock(@Valid @RequestBody BlockDto dto,
                                          BindingResult result) {
         if (result.hasErrors()) {
-            List<String> errors = checkForErrors(result);
+            List<String> errors = StaticMethods.checkForErrors(result);
             return ResponseEntity.badRequest().body(errors);
         }
         BlockDto blockDto = blockService.createBlock(dto);

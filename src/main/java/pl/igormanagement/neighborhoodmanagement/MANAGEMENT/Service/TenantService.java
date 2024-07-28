@@ -1,5 +1,6 @@
 package pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,8 +32,9 @@ public class TenantService {
                 .orElseThrow(() -> new NotFoundException("Tenant not found"));
     }
 
-    public TenantDto createTenant() {
-        Tenant tenant = new Tenant();
-        return TenantDtoMapper.map(tenant);
+    @Transactional
+    public TenantDto createTenant(TenantDto dto) {
+        Tenant savedTenant = tenantRepository.save(TenantDtoMapper.map(dto));
+        return TenantDtoMapper.map(savedTenant);
     }
 }

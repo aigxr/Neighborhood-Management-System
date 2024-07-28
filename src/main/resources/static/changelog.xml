@@ -6,7 +6,6 @@
     <include file="0001-person.xml" relativeToChangelogFile="true"/>
     <include file="0002-file.xml" relativeToChangelogFile="true"/>
     <include file="0003-flat.xml" relativeToChangelogFile="true"/>
-    <include file="0004-rental.xml" relativeToChangelogFile="true"/>
     <include file="0005-developer.xml" relativeToChangelogFile="true"/>
     <include file="0006-block.xml" relativeToChangelogFile="true"/>
     <include file="0007-room.xml" relativeToChangelogFile="true"/>

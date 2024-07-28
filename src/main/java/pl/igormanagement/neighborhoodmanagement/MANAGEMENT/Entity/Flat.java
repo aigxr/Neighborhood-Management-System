@@ -14,10 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Flat {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Flat extends Room {
 
     // for room area in meters
     private Double aLength;
@@ -32,10 +29,10 @@ public class Flat {
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
-    @OneToOne
-    @JoinColumn(name = "room_id")
-    private Room room;
+    @ManyToOne
+    @JoinColumn(name = "tenant_id")
+    private Tenant tenant;
 
-    @OneToOne(mappedBy = "flat")
-    private Rental currentRental;
+    @OneToMany(mappedBy = "flat", cascade = CascadeType.ALL)
+    private List<Person> residents = new ArrayList<>();
 }

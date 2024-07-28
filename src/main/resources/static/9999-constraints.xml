@@ -10,7 +10,7 @@
                 baseTableName="file"
                 baseColumnNames="tenant_id"
                 constraintName="fk_file_tenant"
-                referencedTableName="tenant"
+                referencedTableName="owner"
                 referencedColumnNames="id"/>
 
         <addForeignKeyConstraint
@@ -28,38 +28,10 @@
                 referencedColumnNames="id"/>
 
         <addForeignKeyConstraint
-                baseTableName="flat"
-                baseColumnNames="room_id"
-                constraintName="fk_flat_room_id"
-                referencedTableName="room"
-                referencedColumnNames="id"/>
-
-        <addForeignKeyConstraint
                 baseTableName="person"
-                baseColumnNames="rental_id"
-                constraintName="fk_person_rental_id"
-                referencedTableName="rental"
-                referencedColumnNames="id"/>
-
-        <addForeignKeyConstraint
-                baseTableName="rental"
-                baseColumnNames="block_id"
-                constraintName="fk_rental_block_id"
-                referencedTableName="block"
-                referencedColumnNames="id"/>
-
-        <addForeignKeyConstraint
-                baseTableName="rental"
                 baseColumnNames="flat_id"
-                constraintName="fk_rental_flat_id"
+                constraintName="fk_person_flat_id"
                 referencedTableName="flat"
-                referencedColumnNames="id"/>
-
-        <addForeignKeyConstraint
-                baseTableName="rental"
-                baseColumnNames="parking_id"
-                constraintName="fk_rental_parking_id"
-                referencedTableName="parking"
                 referencedColumnNames="id"/>
 
         <addForeignKeyConstraint
@@ -71,16 +43,11 @@
 
         <addForeignKeyConstraint
                 baseTableName="neighborhood"
-                baseColumnNames="developer"
+                baseColumnNames="developer_id"
                 constraintName="fk_neighborhood_developer_id"
                 referencedTableName="developer"
                 referencedColumnNames="id"/>
 
-        <addForeignKeyConstraint
-                baseTableName="parking"
-                baseColumnNames="room_id"
-                constraintName="fk_parking_room_id"
-                referencedTableName="room"
-                referencedColumnNames="id"/>
+
     </changeSet>
 </databaseChangeLog>

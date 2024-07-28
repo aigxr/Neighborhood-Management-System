@@ -8,14 +8,12 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="a_length" type="float"/>
-            <column name="b_length" type="float"/>
             <column name="name" type="varchar(10)">
                 <constraints nullable="false"/>
             </column>
-            <column name="room_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
+            <column name="a_length" type="float"/>
+            <column name="b_length" type="float"/>
+            <column name="room_area" type="float"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>

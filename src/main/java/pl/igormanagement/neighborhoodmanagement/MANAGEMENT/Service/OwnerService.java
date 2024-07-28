@@ -1,5 +1,6 @@
 package pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,10 +32,9 @@ public class OwnerService {
                 .orElseThrow(() -> new NotFoundException("Owner not found"));
     }
 
+    @Transactional
     public OwnerDto createOwner(OwnerDto dto) {
-        Owner owner = new Owner();
-        owner.setFirstName(dto.getFirstName());
-        owner.setLastName(dto.getLastName());
-        return OwnerDtoMapper.map(owner);
+        Owner savedOwner = ownerRepository.save(OwnerDtoMapper.map(dto));
+        return OwnerDtoMapper.map(savedOwner);
     }
 }

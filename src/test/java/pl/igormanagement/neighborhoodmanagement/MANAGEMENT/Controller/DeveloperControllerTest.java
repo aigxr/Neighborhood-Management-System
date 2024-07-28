@@ -25,6 +25,7 @@ import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.DeveloperD
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Developer;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Service.DeveloperService;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -69,19 +70,25 @@ class DeveloperControllerTest {
         developerDto.setId(DEVELOPER_ID);
         developerDto.setFirstName("Igor");
         developerDto.setLastName("Siotor");
+        developerDto.setPESEL(11111111111L);
+        developerDto.setAddress("New York, Avn DC 03-234");
+        developerDto.setBirthDate(LocalDate.of(2000, 10, 20));
     }
 
     @Test
     void DeveloperController_CreateDeveloper_ReturnCreated() throws Exception {
         given(developerService.createDeveloper(any(DeveloperDto.class))).willReturn(developerDto);
 
-        ResultActions response = mockMvc.perform(post("/add/developer")
+        ResultActions response = mockMvc.perform(post("/create/developer")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(developerDto)));
 
         response.andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(jsonPath("$.firstName", CoreMatchers.is(developerDto.getFirstName())))
                 .andExpect(jsonPath("$.lastName", CoreMatchers.is(developerDto.getLastName())))
+                .andExpect(jsonPath("$.pesel", CoreMatchers.is(developerDto.getPESEL())))
+                .andExpect(jsonPath("$.address", CoreMatchers.is(developerDto.getAddress())))
+                .andExpect(jsonPath("$.birthDate", CoreMatchers.is(developerDto.getBirthDate().toString()))) // needs to be tostring
                 .andDo(MockMvcResultHandlers.print());
     }
 

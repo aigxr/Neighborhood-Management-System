@@ -9,6 +9,19 @@ public class TenantDtoMapper {
         dto.setId(tenant.getId());
         dto.setFirstName(tenant.getFirstName());
         dto.setLastName(tenant.getLastName());
+        dto.setPESEL(tenant.getPESEL());
+        dto.setAddress(tenant.getAddress());
+        dto.setBirthDate(tenant.getBirthDate());
         return dto;
+    }
+
+    public static Tenant map(TenantDto dto) {
+        Tenant tenant = new Tenant();
+        tenant.setFirstName(dto.getFirstName());
+        tenant.setLastName(dto.getLastName());
+        tenant.setPESEL(dto.getPESEL());
+        tenant.setAddress(dto.getAddress());
+        tenant.setBirthDate(dto.getBirthDate());
+        return tenant;
     }
 }

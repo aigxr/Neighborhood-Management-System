@@ -11,10 +11,10 @@
             <column name="person_type" type="varchar(30)"/>
             <column name="first_name" type="varchar(100)"/>
             <column name="last_name" type="varchar(100)"/>
-            <column name="PESEL" type="int"/>
+            <column name="PESEL" type="bigint"/>
             <column name="address" type="varchar(200)"/>
             <column name="birth_date" type="date"/>
-            <column name="rental_id" type="bigint">
+            <column name="flat_id" type="bigint">
                 <constraints nullable="true"/>
             </column>
         </createTable>

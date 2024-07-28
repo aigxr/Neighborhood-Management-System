@@ -19,7 +19,7 @@ public class Neighborhood {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "developer")
+    @JoinColumn(name = "developer_id")
     private Developer developer;
 
     @OneToMany(mappedBy = "neighborhood", cascade = CascadeType.ALL)

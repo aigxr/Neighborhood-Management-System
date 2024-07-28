@@ -12,5 +12,7 @@ import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Room;
 @AllArgsConstructor
 public class ParkingDto {
     private Long id;
-    private Long roomId;
+    private String name;
+    private Double aLength;
+    private Double bLength;
 }

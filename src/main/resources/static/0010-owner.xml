@@ -10,10 +10,9 @@
             </column>
             <column name="first_name" type="varchar(100)"/>
             <column name="last_name" type="varchar(100)"/>
-            <column name="PESEL" type="int"/>
+            <column name="PESEL" type="bigint"/>
             <column name="address" type="varchar(200)"/>
             <column name="birth_date" type="date"/>
-
         </createTable>
     </changeSet>
 </databaseChangeLog>

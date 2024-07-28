@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,13 +15,18 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Owner extends Person {
+public class Owner {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String firstName;
     private String lastName;
+    private Long PESEL;
+    private String address;
+    private LocalDate birthDate;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
-    private List<Flat> flat = new ArrayList<>();
+    private List<Flat> flats = new ArrayList<>();
+
 }

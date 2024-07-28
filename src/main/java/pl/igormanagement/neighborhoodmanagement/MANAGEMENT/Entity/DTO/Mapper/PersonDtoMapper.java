@@ -12,7 +12,6 @@ public class PersonDtoMapper {
         dto.setPESEL(person.getPESEL());
         dto.setAddress(person.getAddress());
         dto.setBirthDate(person.getBirthDate());
-        dto.setRentalId(person.getRental().getId());
         return dto;
     }
 }

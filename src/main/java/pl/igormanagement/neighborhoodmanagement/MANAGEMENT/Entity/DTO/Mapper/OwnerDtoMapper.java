@@ -9,6 +9,19 @@ public class OwnerDtoMapper {
         dto.setId(owner.getId());
         dto.setFirstName(owner.getFirstName());
         dto.setLastName(owner.getLastName());
+        dto.setPESEL(owner.getPESEL());
+        dto.setAddress(owner.getAddress());
+        dto.setBirthDate(owner.getBirthDate());
         return dto;
+    }
+
+    public static Owner map(OwnerDto dto) {
+        Owner owner = new Owner();
+        owner.setFirstName(dto.getFirstName());
+        owner.setLastName(dto.getLastName());
+        owner.setPESEL(dto.getPESEL());
+        owner.setAddress(dto.getAddress());
+        owner.setBirthDate(dto.getBirthDate());
+        return owner;
     }
 }

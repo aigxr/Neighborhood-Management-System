@@ -35,10 +35,8 @@ public class DeveloperService {
     }
     @Transactional
     public DeveloperDto createDeveloper(DeveloperDto dto) {
-        Developer developer = new Developer();
-        developer.setFirstName(dto.getFirstName());
-        developer.setLastName(dto.getLastName());
-        Developer savedDeveloper = developerRepository.save(developer);
+        Developer mappedDto = DeveloperDtoMapper.map(dto);
+        Developer savedDeveloper = developerRepository.save(mappedDto);
         return DeveloperDtoMapper.map(savedDeveloper);
     }
 
