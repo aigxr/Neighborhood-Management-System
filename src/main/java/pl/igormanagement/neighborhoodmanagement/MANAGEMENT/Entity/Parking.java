@@ -11,9 +11,13 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Parking extends Room {
+public class Parking {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
-    private Double aLength;
-    private Double bLength;
 
+    @OneToOne
+    @JoinColumn(name = "room_id")
+    private Room room;
 }

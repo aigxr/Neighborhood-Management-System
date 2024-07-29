@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.ADDITIONALS.StaticMethods;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.FlatDto;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.FlatDtoResponse;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Service.FlatService;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class FlatController {
             List<String> errors = StaticMethods.checkForErrors(result);
             return ResponseEntity.badRequest().body(errors);
         }
-        FlatDto createdFlat = flatService.createFlat(dto);
+        FlatDtoResponse createdFlat = flatService.createFlat(dto);
         return ResponseEntity.ok(createdFlat);
     }
 }

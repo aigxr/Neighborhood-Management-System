@@ -48,6 +48,5 @@
                 referencedTableName="developer"
                 referencedColumnNames="id"/>
 
-
     </changeSet>
 </databaseChangeLog>

@@ -8,7 +8,8 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="room_type" type="varchar(30)"/>
+            <column name="a_length" type="float"/>
+            <column name="b_length" type="float"/>
             <column name="room_area" type="float"/>
         </createTable>
     </changeSet>

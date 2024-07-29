@@ -8,8 +8,6 @@ public class ParkingDtoMapper {
         ParkingDto dto = new ParkingDto();
         dto.setId(parking.getId());
         dto.setName(parking.getName());
-        dto.setALength(parking.getALength());
-        dto.setBLength(parking.getBLength());
         return dto;
     }
 }

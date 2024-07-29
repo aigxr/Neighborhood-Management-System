@@ -33,10 +33,10 @@ VALUES
 -- FLAT --!>
 
 INSERT INTO
-    `flat`(a_length, b_length, block_id, owner_id, tenant_id)
+    `flat`(block_id, owner_id, tenant_id, room_id)
 VALUES
-    (30, 40, 1, 1, 1),
-    (20, 30, 1, 1, 1);
+    (1, 1, 1, 1),
+    (1, 1, 1, 1);
 
 -- PERSON --!>
 

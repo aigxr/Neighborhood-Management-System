@@ -13,7 +13,11 @@ import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.*;
 @AllArgsConstructor
 public class FlatDto {
     private Long id;
+    private String name;
+
+    @NotNull(message = "A length must be provided")
     private Double aLength;
+    @NotNull(message = "B length must be provided")
     private Double bLength;
     @NotNull(message = "Block ID must be provided")
     private Long blockId;
@@ -21,6 +25,4 @@ public class FlatDto {
     private Long ownerId;
     @NotNull(message = "Block ID must be provided")
     private Long tenantId;
-    private Long roomId;
-    private Long rentalId;
 }
