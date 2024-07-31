@@ -44,7 +44,7 @@ public class NeighborhoodController {
         return ResponseEntity.status(HttpStatus.CREATED).body(neighborhood);
     }
 
-    @PatchMapping("/update/neighborhood/{id}")
+    @PutMapping("/update/neighborhood/{id}")
     public ResponseEntity<?> updateNeighborhood(@PathVariable(value = "id") Long id,
                                                 @Valid @RequestBody NeighborhoodDto dto,
                                                 BindingResult result) {

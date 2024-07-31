@@ -49,6 +49,15 @@ public class DeveloperService {
         if (dto.getLastName() != null) {
             developer.setLastName(dto.getLastName());
         }
+        if (dto.getPESEL() != null) {
+            developer.setPESEL(dto.getPESEL());
+        }
+        if (dto.getBirthDate() != null) {
+            developer.setBirthDate(dto.getBirthDate());
+        }
+        if (dto.getAddress() != null) {
+            developer.setAddress(dto.getAddress());
+        }
         Developer savedDeveloper = developerRepository.save(developer);
         return DeveloperDtoMapper.map(savedDeveloper);
     }

@@ -120,13 +120,16 @@ class DeveloperControllerTest {
     void DeveloperController_UpdateDeveloperById_ReturnDeveloperDto() throws Exception {
         when(developerService.updateDeveloper(anyLong(), any(DeveloperDto.class))).thenReturn(developerDto);
 
-        ResultActions response = mockMvc.perform(patch("/update/developer/" + DEVELOPER_ID)
+        ResultActions response = mockMvc.perform(put("/update/developer/" + DEVELOPER_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(developerDto)));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.firstName", CoreMatchers.is(developerDto.getFirstName())))
                 .andExpect(jsonPath("$.lastName", CoreMatchers.is(developerDto.getLastName())))
+                .andExpect(jsonPath("$.pesel", CoreMatchers.is(developerDto.getPESEL())))
+                .andExpect(jsonPath("$.address", CoreMatchers.is(developerDto.getAddress())))
+                .andExpect(jsonPath("$.birthDate", CoreMatchers.is(developerDto.getBirthDate().toString())))
                 .andDo(MockMvcResultHandlers.print());
     }
 

@@ -43,9 +43,9 @@ public class DeveloperController {
         return ResponseEntity.status(HttpStatus.CREATED).body(developer);
     }
 
-    @PatchMapping("/update/developer/{id}")
+    @PutMapping("/update/developer/{id}")
     public ResponseEntity<?> updateDeveloper(@PathVariable Long id,
-                                             @Valid @RequestBody DeveloperDto dto,
+                                             @RequestBody DeveloperDto dto,
                                              BindingResult result) {
         if (result.hasErrors()) {
             List<String> errors = StaticMethods.checkForErrors(result);

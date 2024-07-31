@@ -1,11 +1,14 @@
 package pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.igormanagement.neighborhoodmanagement.EXCEPTIONS.NotFoundException;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.FlatDto;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.Mapper.RoomDtoMapper;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.RoomDto;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Flat;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Room;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.repository.RoomRepository;
 
@@ -30,9 +33,9 @@ public class RoomService {
         return roomRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Room not found"));
     }
-
-    public RoomDto createRoom() {
-        Room room = new Room();
-        return RoomDtoMapper.map(room);
+    @Transactional
+    public Room createRoom(FlatDto dto) {
+        Room mappedRoom = RoomDtoMapper.map(dto.getALength(), dto.getBLength());
+        return roomRepository.save(mappedRoom);
     }
 }

@@ -2,6 +2,7 @@ package pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.Mapper;
 
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.FlatDto;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.FlatDtoResponse;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Developer;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Flat;
 
 public class FlatDtoMapper {
@@ -25,7 +26,20 @@ public class FlatDtoMapper {
         dto.setName(flat.getName());
         dto.setBlockId(flat.getBlock().getId());
         dto.setOwnerId(flat.getOwner().getId());
-        dto.setTenantId(flat.getTenant().getId());
+        if (flat.getTenant() != null)
+            dto.setTenantId(flat.getTenant().getId());
+        dto.setRoom(flat.getRoom());
         return dto;
     }
+
+//    public static Flat map(Flat flat,
+//                                   FlatDto dto) {
+//        if (dto.getName() != null)
+//            flat.setName(dto.getName());
+//        if (dto.getALength() != null)
+//            flat.setRoom(dto.getCity());
+//        if (dto.getBLength() != null)
+//            neighborhood.setAddress(dto.getAddress());
+//        return neighborhood;
+//    }
 }

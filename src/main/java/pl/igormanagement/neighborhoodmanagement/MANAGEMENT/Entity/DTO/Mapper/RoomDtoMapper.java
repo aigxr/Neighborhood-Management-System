@@ -24,4 +24,13 @@ public class RoomDtoMapper {
         }
         return room;
     }
+
+    public static Room mapFoundRoom(Room room, Double aLength, Double bLength) {
+        room.setALength(aLength);
+        room.setBLength(bLength);
+        if (aLength != null && bLength != null) {
+            room.setRoomArea(aLength * bLength);
+        }
+        return room;
+    }
 }

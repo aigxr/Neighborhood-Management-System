@@ -21,8 +21,7 @@ public class FlatDto {
     private Double bLength;
     @NotNull(message = "Block ID must be provided")
     private Long blockId;
-    @NotNull(message = "Block ID must be provided")
+    @NotNull(message = "Owner ID must be provided")
     private Long ownerId;
-    @NotNull(message = "Block ID must be provided")
     private Long tenantId;
 }

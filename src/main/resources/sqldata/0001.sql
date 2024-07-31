@@ -31,12 +31,12 @@ VALUES
     ('B', 1);
 
 -- FLAT --!>
-
-INSERT INTO
-    `flat`(block_id, owner_id, tenant_id, room_id)
-VALUES
-    (1, 1, 1, 1),
-    (1, 1, 1, 1);
+--
+-- INSERT INTO
+--     `flat`(block_id, owner_id, tenant_id, room_id)
+-- VALUES
+--     (1, 1, 1, 1),
+--     (1, 1, 1, 1);
 
 -- PERSON --!>
 

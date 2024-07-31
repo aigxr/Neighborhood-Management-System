@@ -44,7 +44,7 @@ public class BlockController {
         return ResponseEntity.status(HttpStatus.CREATED).body(blockDto);
     }
 
-    @PatchMapping("/update/block/{id}")
+    @PutMapping("/update/block/{id}")
     public ResponseEntity<?> updateBlock(@PathVariable(value = "id") Long id,
                                          @Valid @RequestBody BlockDto dto,
                                          BindingResult result) {

@@ -147,7 +147,7 @@ class NeighborhoodControllerTest {
 
         given(neighborhoodService.updateNeighborhood(anyLong(), any(NeighborhoodDto.class))).willReturn(neighborhoodDto);
 
-        ResultActions response = mockMvc.perform(patch("/update/neighborhood/" + NEIGH_ID)
+        ResultActions response = mockMvc.perform(put("/update/neighborhood/" + NEIGH_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(neighborhoodDto)));
 
