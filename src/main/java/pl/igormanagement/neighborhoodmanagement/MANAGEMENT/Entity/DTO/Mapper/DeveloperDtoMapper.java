@@ -19,6 +19,20 @@ public class DeveloperDtoMapper {
         return dto;
     }
 
+    public static Developer updateMap(Developer developer, DeveloperDto dto) {
+        if (dto.getFirstName() != null)
+            developer.setFirstName(dto.getFirstName());
+        if (dto.getLastName() != null)
+            developer.setLastName(dto.getLastName());
+        if (dto.getPESEL() != null)
+            developer.setPESEL(dto.getPESEL());
+        if (dto.getAddress() != null)
+            developer.setAddress(dto.getAddress());
+        if (dto.getBirthDate() != null)
+            developer.setBirthDate(dto.getBirthDate());
+        return developer;
+    }
+
     public static Developer map(DeveloperDto dto) {
         Developer developer = new Developer();
         developer.setFirstName(dto.getFirstName());

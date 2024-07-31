@@ -27,8 +27,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -115,7 +114,27 @@ class FlatControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(flatDto)));
 
+        verify(flatService).createFlat(any(FlatDto.class));
+
         response.andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.name", is("Apartment")))
+                .andExpect(jsonPath("$.room.alength", is(30.0)))
+                .andDo(MockMvcResultHandlers.print());
+
+    }
+
+    @Test
+    void FlatController_UpdateFlatById_ReturnResponseDto() throws Exception {
+        given(flatService.updateFlat(anyLong(), any(FlatDto.class))).willReturn(flatDtoResponse); // because we return optimized info
+
+        ResultActions response = mockMvc.perform(put("/update/flat/" + FLAT_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(flatDto)));
+
+        verify(flatService).updateFlat(anyLong(), any(FlatDto.class));
+
+        response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.name", is("Apartment")))
                 .andExpect(jsonPath("$.room.alength", is(30.0)))
@@ -123,19 +142,16 @@ class FlatControllerTest {
     }
 
     @Test
-    void FlatController_UpdateFlatById_ReturnResponseDto() throws Exception {
-        when(flatService.getFlat(anyLong())).thenReturn(flat);
-        given(flatService.updateFlat(anyLong(), any(FlatDto.class))).willReturn(flatDtoResponse); // because we return optimized info
+    void FlatController_DeleteFlatByAndRoomId_ReturnNothing() throws Exception {
+        doNothing().when(flatService).deleteFlat(anyLong());
 
-        ResultActions response = mockMvc.perform(put("/update/flat/" + FLAT_ID)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(flatDto)));
+        ResultActions response = mockMvc.perform(delete("/delete/flat/" + FLAT_ID)
+                .contentType(MediaType.APPLICATION_JSON));
 
-        response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.name", is("Apartment")))
-                .andExpect(jsonPath("$.room.alength", is(30.0)))
-                .andDo(MockMvcResultHandlers.print());
+        response.andExpect(status().isOk());
+
+        verify(flatService).deleteFlat(FLAT_ID);
+        verifyNoMoreInteractions(flatService);
     }
 
     @Test
@@ -145,10 +161,48 @@ class FlatControllerTest {
         ResultActions response = mockMvc.perform(get("/flats")
                 .contentType(MediaType.APPLICATION_JSON));
 
+        verify(flatService).getAllFlats();
+
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id", is(1)))
                 .andExpect(jsonPath("$[0].name", is("Apartment")))
                 .andExpect(jsonPath("$[0].room.alength", is(30.0)))
                 .andDo(MockMvcResultHandlers.print());
     }
+
+    @Test
+    void FlatController_GetFlatById_ReturnResponseDto() throws Exception {
+        given(flatService.getFlatDto(anyLong())).willReturn(flatDtoResponse);
+
+        ResultActions response = mockMvc.perform(get("/flat/" + FLAT_ID)
+                .contentType(MediaType.APPLICATION_JSON));
+
+        verify(flatService).getFlatDto(anyLong());
+
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.name", is("Apartment")))
+                .andExpect(jsonPath("$.room.alength", is(30.0)))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+//    @Test
+//    void FlatController_CheckThrowWhenCreateFlat_ReturnErrors() throws Exception {
+//
+//        FlatDto wrongDto = new FlatDto();
+//        wrongDto.setName("sa");
+//
+//        FlatDtoResponse wrongResponseDto = new FlatDtoResponse();
+//        wrongDto.setName("sa");
+//
+//        given(flatService.createFlat(any(FlatDto.class))).willReturn(wrongResponseDto);
+//
+//        ResultActions response = mockMvc.perform(post("/create/flat")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(objectMapper.writeValueAsString(wrongDto)));
+//
+////        System.out.println(jsonPath("$.errors"));
+//
+//        response.andExpect(jsonPath("$.errors", is("something")));
+//    }
 }

@@ -38,4 +38,10 @@ public class RoomService {
         Room mappedRoom = RoomDtoMapper.map(dto.getALength(), dto.getBLength());
         return roomRepository.save(mappedRoom);
     }
+
+    @Transactional
+    public void deleteRoom(Long id) {
+        Room foundRoom = getRoom(id);
+        roomRepository.deleteById(foundRoom.getId());
+    }
 }

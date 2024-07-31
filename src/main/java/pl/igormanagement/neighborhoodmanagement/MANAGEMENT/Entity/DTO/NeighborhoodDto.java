@@ -14,10 +14,10 @@ import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Developer;
 public class NeighborhoodDto {
     private Long id;
     private Long developerId;
-//    @NotEmpty(message = "Name can't be empty")
+    @NotEmpty(message = "Name can't be empty")
     private String name;
-//    @NotEmpty(message = "City can't be empty")
+    @NotEmpty(message = "City can't be empty")
     private String city;
-//    @NotEmpty(message = "Address can't be empty")
+    @NotEmpty(message = "Address can't be empty")
     private String address;
 }
