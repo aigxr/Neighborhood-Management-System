@@ -32,7 +32,6 @@ import static org.mockito.Mockito.*;
 
 @DataJpaTest
 @ExtendWith(MockitoExtension.class)
-@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 class DeveloperServiceTest {
     private static final Long DEVELOPER_ID = 1L;
     @Mock private DeveloperRepository developerRepository;

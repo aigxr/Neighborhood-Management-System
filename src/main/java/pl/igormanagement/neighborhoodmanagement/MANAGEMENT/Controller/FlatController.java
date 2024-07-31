@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.executable.ExecutableType;
 import jakarta.validation.executable.ValidateOnExecution;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +38,7 @@ public class FlatController {
             return ResponseEntity.badRequest().body(errors);
         }
         FlatDtoResponse createdFlat = flatService.createFlat(dto);
-        return ResponseEntity.ok(createdFlat);
+        return new ResponseEntity<>(createdFlat, HttpStatus.CREATED);
     }
 
     // PUTS NEW FLAT BUT ALSO CHANGES THE ROOM

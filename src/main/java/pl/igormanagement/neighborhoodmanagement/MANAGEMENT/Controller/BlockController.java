@@ -18,7 +18,7 @@ import java.util.List;
 public class BlockController {
     private final BlockService blockService;
 
-    @GetMapping("/block")
+    @GetMapping("/blocks")
     public ResponseEntity<List<BlockDto>> getAllBlocks() {
         return ResponseEntity.ok(blockService.getAllBlocks());
     }
@@ -52,8 +52,8 @@ public class BlockController {
             List<String> errors = checkForErrors(result);
             return ResponseEntity.badRequest().body(errors);
         }
-        blockService.updateBlock(id, dto);
-        return ResponseEntity.ok().build();
+        BlockDto updatedBlock = blockService.updateBlock(id, dto);
+        return ResponseEntity.ok(updatedBlock);
     }
 
     @DeleteMapping("/delete/block/{id}")

@@ -134,7 +134,7 @@ class DeveloperControllerTest {
     }
 
     @Test
-    void DeveloperController_DeleteDeveloperById_ReturnNothing() throws Exception {
+    void DeveloperController_DeleteDeveloperById_ReturnStatusOK() throws Exception {
         doNothing().when(developerService).deleteDeveloper(anyLong());
 
         ResultActions response = mockMvc.perform(delete("/delete/developer/" + DEVELOPER_ID)

@@ -43,8 +43,6 @@ class FlatServiceTest {
     @Mock private TenantService tenantService;
     @Mock private RoomService roomService;
 
-    @Captor private ArgumentCaptor<Flat> captor;
-
     private FlatService flatService;
     private Room room;
     private Owner owner;
