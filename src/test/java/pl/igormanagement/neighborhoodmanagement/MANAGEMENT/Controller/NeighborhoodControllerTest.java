@@ -103,7 +103,7 @@ class NeighborhoodControllerTest {
 
         when(neighborhoodService.getAllNeighborhoods()).thenReturn(list);
 
-        ResultActions response = mockMvc.perform(get("/neighborhood")
+        ResultActions response = mockMvc.perform(get("/neighborhoods")
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(status().isOk())

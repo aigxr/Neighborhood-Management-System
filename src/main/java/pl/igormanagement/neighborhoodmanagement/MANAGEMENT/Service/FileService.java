@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import pl.igormanagement.neighborhoodmanagement.EXCEPTIONS.NotFoundException;
 import pl.igormanagement.neighborhoodmanagement.EXCEPTIONS.ProblematicPersonException;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.FileDto;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.FileDtoResponse;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.Mapper.FileDtoMapper;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.File;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Person;
@@ -27,14 +28,19 @@ public class FileService {
         return fileRepository.findAll().stream().map(FileDtoMapper::map).toList();
     }
 
-    public List<FileDto> getAllFilesByTenantId(Long id) {
-        return fileRepository.findAllByTenantId(id).stream().map(FileDtoMapper::map).toList();
+    public List<FileDtoResponse> getAllFilesByTenantId(Long id) {
+        return fileRepository.findAllByTenantId(id).stream().map(FileDtoMapper::response).toList();
     }
 
     public FileDto getFileDto(Long id) {
         return fileRepository.findById(id).map(FileDtoMapper::map)
                 .orElseThrow(() -> new NotFoundException("File not found"));
     }
+
+//    public FileDtoResponse getFileDtoResponse(Long id) {
+//        return fileRepository.findById(id).map(FileDtoMapper::response)
+//                .orElseThrow(() -> new NotFoundException("File not found"));
+//    }
 
     public File getFile(Long id) {
         return fileRepository.findById(id)

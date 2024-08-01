@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.FileDto;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.ADDITIONALS.StaticMethods;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.FileDtoResponse;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Service.FileService;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class FileController {
     }
 
     @GetMapping("/file/tenant/{id}")
-    public ResponseEntity<List<FileDto>> getAllFilesByTenantId(@PathVariable("id") Long id) {
+    public ResponseEntity<List<FileDtoResponse>> getAllFilesByTenantId(@PathVariable("id") Long id) {
         return ResponseEntity.ok(fileService.getAllFilesByTenantId(id));
     }
 

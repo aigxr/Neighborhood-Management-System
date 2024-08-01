@@ -5,9 +5,11 @@ import org.springframework.stereotype.Repository;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Block;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Neighborhood;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface BlockRepository extends JpaRepository<Block, Long> {
     Optional<Block> findByNameAndNeighborhoodId(String name, Long neighborhoodId);
+    List<Block> findAllByNeighborhoodId(Long id);
 }

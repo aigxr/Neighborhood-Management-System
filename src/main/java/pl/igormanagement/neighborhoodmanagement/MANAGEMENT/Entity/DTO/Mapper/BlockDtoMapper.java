@@ -2,6 +2,7 @@ package pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.Mapper;
 
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Block;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.BlockDto;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.BlockDtoResponse;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Neighborhood;
 
 public class BlockDtoMapper {
@@ -10,6 +11,13 @@ public class BlockDtoMapper {
         dto.setId(block.getId());
         dto.setName(block.getName());
         dto.setNeighborhoodId(block.getNeighborhood().getId());
+        return dto;
+    }
+
+    public static BlockDtoResponse response(Block block) {
+        BlockDtoResponse dto = new BlockDtoResponse();
+        dto.setId(block.getId());
+        dto.setName(block.getName());
         return dto;
     }
 

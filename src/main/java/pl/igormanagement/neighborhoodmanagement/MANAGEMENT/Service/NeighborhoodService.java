@@ -5,13 +5,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.igormanagement.neighborhoodmanagement.EXCEPTIONS.NotFoundException;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.BlockDtoResponse;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.Mapper.NeighborhoodDtoMapper;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.NeighborhoodDto;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.NeighborhoodDtoResponse;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Developer;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Neighborhood;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.repository.BlockRepository;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.repository.NeighborhoodRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -19,6 +23,7 @@ import java.util.List;
 public class NeighborhoodService {
     private final NeighborhoodRepository neighborhoodRepository;
     private final DeveloperService developerService;
+
     public List<NeighborhoodDto> getAllNeighborhoods() {
         return neighborhoodRepository.findAll().stream().map(NeighborhoodDtoMapper::map).toList();
     }
@@ -28,6 +33,7 @@ public class NeighborhoodService {
         return neighborhoodRepository.findAllByDeveloperId(foundDeveloper.getId())
                 .stream().map(NeighborhoodDtoMapper::map).toList();
     }
+
     public NeighborhoodDto getNeighborhoodDto(Long id) {
         return neighborhoodRepository.findById(id).map(NeighborhoodDtoMapper::map)
                 .orElseThrow(() -> new NotFoundException("Neighborhood not found"));
