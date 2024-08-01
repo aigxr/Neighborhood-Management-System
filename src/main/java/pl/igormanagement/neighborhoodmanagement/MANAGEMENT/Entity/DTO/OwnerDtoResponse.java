@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.File;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Flat;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,12 +13,12 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TenantDtoResponse {
+public class OwnerDtoResponse {
     private Long id;
     private String firstName;
     private String lastName;
     private Long pesel;
     private String address;
     private LocalDate birthDate;
-    private List<FileDtoResponse> files;
+    private List<FlatDtoResponse> flats;
 }

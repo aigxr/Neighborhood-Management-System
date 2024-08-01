@@ -15,6 +15,7 @@ import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.Mapper.Nei
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.NeighborhoodDto;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Developer;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Neighborhood;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.repository.BlockRepository;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.repository.NeighborhoodRepository;
 
 import java.util.*;
@@ -32,6 +33,7 @@ class NeighborhoodServiceTest {
     private static final Long NEIGH_ID = 1L;
     private static final Long DEVELOPER_ID = 1L;
     @Mock private NeighborhoodRepository neighborhoodRepository;
+    @Mock private BlockRepository blockRepository;
     @Mock private DeveloperService developerService;
     @Captor private ArgumentCaptor<Neighborhood> captor;
     private NeighborhoodService neighborhoodService;
@@ -41,7 +43,7 @@ class NeighborhoodServiceTest {
 
     @BeforeEach
     public void init() {
-        neighborhoodService = new NeighborhoodService(neighborhoodRepository, developerService);
+        neighborhoodService = new NeighborhoodService(neighborhoodRepository, developerService, blockRepository);
 
         // simulation of non-existent developer
         developer = new Developer();

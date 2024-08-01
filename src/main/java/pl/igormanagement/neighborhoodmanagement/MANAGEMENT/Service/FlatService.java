@@ -48,6 +48,7 @@ public class FlatService {
         Block foundBlock = blockService.getBlock(dto.getBlockId());
         Tenant foundTenant = dto.getTenantId() != null ? tenantService.getTenant(dto.getTenantId()) : null;
 
+
         Flat flat = new Flat();
         flat.setName(dto.getName());
         flat.setOwner(foundOwner);

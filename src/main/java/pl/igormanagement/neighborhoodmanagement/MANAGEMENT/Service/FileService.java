@@ -48,13 +48,33 @@ public class FileService {
     }
 
     @Transactional
-    public FileDto createFile(FileDto fileDto) {
-        Tenant tenant = tenantService.getTenant(fileDto.getTenantId());
+    public FileDto createFile(FileDto dto) {
+        Tenant tenant = tenantService.getTenant(dto.getTenantId());
         File file = new File();
-        file.setTitle(fileDto.getTitle());
-        file.setDocument(fileDto.getDocument());
+        file.setTitle(dto.getTitle());
+        file.setDocument(dto.getDocument());
         file.setTenant(tenant);
         File savedFile = fileRepository.save(file);
         return FileDtoMapper.map(savedFile);
+    }
+
+    @Transactional
+    public FileDto updateFile(Long id, FileDto dto) {
+        Tenant tenant = tenantService.getTenant(dto.getTenantId());
+        File file = getFile(id);
+        if (dto.getTitle() != null)
+            file.setTitle(dto.getTitle());
+        if (dto.getDocument() != null)
+            file.setDocument(dto.getDocument());
+        if (dto.getTenantId() != null)
+            file.setTenant(tenant);
+        File savedFile = fileRepository.save(file);
+        return FileDtoMapper.map(savedFile);
+    }
+
+    @Transactional
+    public void deleteFile(Long id) {
+        File foundFile = getFile(id);
+        fileRepository.deleteById(foundFile.getId());
     }
 }

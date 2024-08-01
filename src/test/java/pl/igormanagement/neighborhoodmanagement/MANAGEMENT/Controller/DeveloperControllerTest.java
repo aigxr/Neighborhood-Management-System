@@ -70,7 +70,7 @@ class DeveloperControllerTest {
         developerDto.setId(DEVELOPER_ID);
         developerDto.setFirstName("Igor");
         developerDto.setLastName("Siotor");
-        developerDto.setPESEL(11111111111L);
+        developerDto.setPesel(11111111111L);
         developerDto.setAddress("New York, Avn DC 03-234");
         developerDto.setBirthDate(LocalDate.of(2000, 10, 20));
     }
@@ -86,7 +86,7 @@ class DeveloperControllerTest {
         response.andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(jsonPath("$.firstName", CoreMatchers.is(developerDto.getFirstName())))
                 .andExpect(jsonPath("$.lastName", CoreMatchers.is(developerDto.getLastName())))
-                .andExpect(jsonPath("$.pesel", CoreMatchers.is(developerDto.getPESEL())))
+                .andExpect(jsonPath("$.pesel", CoreMatchers.is(developerDto.getPesel())))
                 .andExpect(jsonPath("$.address", CoreMatchers.is(developerDto.getAddress())))
                 .andExpect(jsonPath("$.birthDate", CoreMatchers.is(developerDto.getBirthDate().toString()))) // needs to be tostring
                 .andDo(MockMvcResultHandlers.print());
@@ -127,7 +127,7 @@ class DeveloperControllerTest {
         response.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.firstName", CoreMatchers.is(developerDto.getFirstName())))
                 .andExpect(jsonPath("$.lastName", CoreMatchers.is(developerDto.getLastName())))
-                .andExpect(jsonPath("$.pesel", CoreMatchers.is(developerDto.getPESEL())))
+                .andExpect(jsonPath("$.pesel", CoreMatchers.is(developerDto.getPesel())))
                 .andExpect(jsonPath("$.address", CoreMatchers.is(developerDto.getAddress())))
                 .andExpect(jsonPath("$.birthDate", CoreMatchers.is(developerDto.getBirthDate().toString())))
                 .andDo(MockMvcResultHandlers.print());

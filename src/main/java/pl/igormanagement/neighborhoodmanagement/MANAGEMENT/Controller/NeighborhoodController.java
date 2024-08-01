@@ -31,8 +31,8 @@ public class NeighborhoodController {
     }
 
     @GetMapping("/neighborhood/{id}")
-    public ResponseEntity<NeighborhoodDto> getNeighborhoodById(@PathVariable Long id) {
-        return ResponseEntity.ok(neighborhoodService.getNeighborhoodDto(id));
+    public ResponseEntity<NeighborhoodDtoResponse> getNeighborhoodById(@PathVariable Long id) {
+        return ResponseEntity.ok(neighborhoodService.getNeighborhoodDtoResponse(id));
     }
 
     @PostMapping("/create/neighborhood")

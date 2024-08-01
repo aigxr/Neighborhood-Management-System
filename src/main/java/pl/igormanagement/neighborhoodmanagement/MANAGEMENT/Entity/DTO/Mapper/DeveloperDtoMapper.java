@@ -13,7 +13,7 @@ public class DeveloperDtoMapper {
         dto.setId(developer.getId());
         dto.setFirstName(developer.getFirstName());
         dto.setLastName(developer.getLastName());
-        dto.setPESEL(developer.getPESEL());
+        dto.setPesel(developer.getPesel());
         dto.setAddress(developer.getAddress());
         dto.setBirthDate(developer.getBirthDate());
         return dto;
@@ -24,8 +24,8 @@ public class DeveloperDtoMapper {
             developer.setFirstName(dto.getFirstName());
         if (dto.getLastName() != null)
             developer.setLastName(dto.getLastName());
-        if (dto.getPESEL() != null)
-            developer.setPESEL(dto.getPESEL());
+        if (dto.getPesel() != null)
+            developer.setPesel(dto.getPesel());
         if (dto.getAddress() != null)
             developer.setAddress(dto.getAddress());
         if (dto.getBirthDate() != null)
@@ -37,7 +37,7 @@ public class DeveloperDtoMapper {
         Developer developer = new Developer();
         developer.setFirstName(dto.getFirstName());
         developer.setLastName(dto.getLastName());
-        developer.setPESEL(dto.getPESEL());
+        developer.setPesel(dto.getPesel());
         developer.setAddress(dto.getAddress());
         developer.setBirthDate(dto.getBirthDate());
         return developer;

@@ -4,19 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Block;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Room;
 
-import java.util.List;
-
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class NeighborhoodDtoResponse {
+public class ParkingDtoResponse {
     private Long id;
-    private Long developerId;
     private String name;
-    private String city;
-    private String address;
-    private List<BlockDtoResponse> blockList;
+    private Room room;
 }

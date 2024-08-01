@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.igormanagement.neighborhoodmanagement.EXCEPTIONS.NotFoundException;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Block;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.BlockDtoResponse;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.Mapper.BlockDtoMapper;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.Mapper.NeighborhoodDtoMapper;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.NeighborhoodDto;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.NeighborhoodDtoResponse;
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
 public class NeighborhoodService {
     private final NeighborhoodRepository neighborhoodRepository;
     private final DeveloperService developerService;
+    private final BlockRepository blockRepository;
 
     public List<NeighborhoodDto> getAllNeighborhoods() {
         return neighborhoodRepository.findAll().stream().map(NeighborhoodDtoMapper::map).toList();
@@ -32,6 +35,18 @@ public class NeighborhoodService {
         Developer foundDeveloper = developerService.getDeveloper(id);
         return neighborhoodRepository.findAllByDeveloperId(foundDeveloper.getId())
                 .stream().map(NeighborhoodDtoMapper::map).toList();
+    }
+
+    public NeighborhoodDtoResponse getNeighborhoodDtoResponse(Long id) {
+        NeighborhoodDtoResponse foundResponse = neighborhoodRepository
+                .findById(id).map(NeighborhoodDtoMapper::response)
+                .orElseThrow(() -> new NotFoundException("Neighborhood not found"));
+
+        List<BlockDtoResponse> allBlocks = blockRepository
+                .findAllByNeighborhoodId(id).stream().map(BlockDtoMapper::response).toList();
+
+        foundResponse.setBlockList(allBlocks);
+        return foundResponse;
     }
 
     public NeighborhoodDto getNeighborhoodDto(Long id) {

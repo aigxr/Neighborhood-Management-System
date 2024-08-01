@@ -19,7 +19,7 @@ public class Person {
     private Long id;
     private String firstName;
     private String lastName;
-    private Long PESEL;
+    private Long pesel;
     private String address;
     private LocalDate birthDate;
 

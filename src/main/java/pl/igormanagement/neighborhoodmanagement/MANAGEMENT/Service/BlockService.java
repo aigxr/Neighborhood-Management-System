@@ -28,7 +28,6 @@ public class BlockService {
         return blockRepository.findAll().stream().map(BlockDtoMapper::map).toList();
     }
 
-
     public List<BlockDto> getAllBlocksByNeighborhoodId(Long id) {
         return blockRepository
                 .findAllByNeighborhoodId(id).stream().map(BlockDtoMapper::map).toList();

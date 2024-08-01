@@ -44,4 +44,21 @@ public class FileController {
         FileDto savedFile = fileService.createFile(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedFile);
     }
+
+    @PutMapping("/update/file/{id}")
+    public ResponseEntity<?> updateFile(@PathVariable("id") Long id,
+                                        @Valid @RequestBody FileDto dto,
+                                        BindingResult result) {
+        if (result.hasErrors()) {
+            List<String> errors = StaticMethods.checkForErrors(result);
+            return ResponseEntity.badRequest().body(errors);
+        }
+        FileDto updatedFile = fileService.updateFile(id, dto);
+        return ResponseEntity.ok(updatedFile);
+    }
+
+    @DeleteMapping("/delete/file/{id}")
+    public void deleteFile(@PathVariable("id") Long id) {
+        fileService.deleteFile(id);
+    }
 }

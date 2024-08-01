@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.NeighborhoodDto;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.NeighborhoodDtoResponse;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Developer;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Neighborhood;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Service.NeighborhoodService;
@@ -53,6 +54,7 @@ class NeighborhoodControllerTest {
     ObjectMapper objectMapper;
     private Developer developer;
     private NeighborhoodDto neighborhoodDto;
+    private NeighborhoodDtoResponse dtoResponse;
     private Neighborhood neighborhood;
 
     @BeforeEach
@@ -77,6 +79,10 @@ class NeighborhoodControllerTest {
         neighborhoodDto.setName("SOLID");
         neighborhoodDto.setCity("Warszawa");
         neighborhoodDto.setAddress("Some street");
+
+        dtoResponse = new NeighborhoodDtoResponse();
+        dtoResponse.setDeveloperId(DEVELOPER_ID);
+        dtoResponse.setName("SOLID");
     }
 
     @Test
@@ -129,7 +135,7 @@ class NeighborhoodControllerTest {
     @Test
     void NeighborhoodController_GetNeighborhood_ReturnsDto() throws Exception {
 
-        when(neighborhoodService.getNeighborhoodDto(anyLong())).thenReturn(neighborhoodDto);
+        when(neighborhoodService.getNeighborhoodDtoResponse(anyLong())).thenReturn(dtoResponse);
 
         ResultActions response = mockMvc.perform(get("/neighborhood/" + NEIGH_ID)
                 .contentType(MediaType.APPLICATION_JSON));
@@ -137,8 +143,6 @@ class NeighborhoodControllerTest {
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.developerId", CoreMatchers.is(1)))
                 .andExpect(jsonPath("$.name", CoreMatchers.is(neighborhoodDto.getName())))
-                .andExpect(jsonPath("$.city", CoreMatchers.is(neighborhoodDto.getCity())))
-                .andExpect(jsonPath("$.address", CoreMatchers.is(neighborhoodDto.getAddress())))
                 .andDo(MockMvcResultHandlers.print());
     }
 

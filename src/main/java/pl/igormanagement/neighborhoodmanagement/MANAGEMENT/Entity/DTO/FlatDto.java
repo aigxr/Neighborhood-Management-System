@@ -24,4 +24,5 @@ public class FlatDto {
     @NotNull(message = "Owner ID must be provided")
     private Long ownerId;
     private Long tenantId;
+    private Long parkingId;
 }

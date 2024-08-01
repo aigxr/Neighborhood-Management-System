@@ -10,7 +10,7 @@ public class TenantDtoMapper {
         dto.setId(tenant.getId());
         dto.setFirstName(tenant.getFirstName());
         dto.setLastName(tenant.getLastName());
-        dto.setPESEL(tenant.getPESEL());
+        dto.setPesel(tenant.getPesel());
         dto.setAddress(tenant.getAddress());
         dto.setBirthDate(tenant.getBirthDate());
         return dto;
@@ -21,7 +21,7 @@ public class TenantDtoMapper {
         dto.setId(tenant.getId());
         dto.setFirstName(tenant.getFirstName());
         dto.setLastName(tenant.getLastName());
-        dto.setPESEL(tenant.getPESEL());
+        dto.setPesel(tenant.getPesel());
         dto.setAddress(tenant.getAddress());
         dto.setBirthDate(tenant.getBirthDate());
         return dto;
@@ -34,8 +34,8 @@ public class TenantDtoMapper {
             tenant.setFirstName(dto.getFirstName());
         if (dto.getLastName() != null)
             tenant.setLastName(dto.getLastName());
-        if (dto.getPESEL() != null)
-            tenant.setPESEL(dto.getPESEL());
+        if (dto.getPesel() != null)
+            tenant.setPesel(dto.getPesel());
         if (dto.getAddress() != null)
             tenant.setAddress(dto.getAddress());
         if (dto.getBirthDate() != null)
@@ -48,7 +48,7 @@ public class TenantDtoMapper {
         Tenant tenant = new Tenant();
         tenant.setFirstName(dto.getFirstName());
         tenant.setLastName(dto.getLastName());
-        tenant.setPESEL(dto.getPESEL());
+        tenant.setPesel(dto.getPesel());
         tenant.setAddress(dto.getAddress());
         tenant.setBirthDate(dto.getBirthDate());
         return tenant;

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Parking;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Room;
 
 @Getter
@@ -18,4 +19,5 @@ public class FlatDtoResponse {
     private Long ownerId;
     private Long tenantId;
     private Room room;
+    private Parking parking;
 }
