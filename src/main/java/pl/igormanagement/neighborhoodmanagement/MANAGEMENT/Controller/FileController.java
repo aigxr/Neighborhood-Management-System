@@ -18,7 +18,7 @@ import java.util.List;
 public class FileController {
     private final FileService fileService;
 
-    @GetMapping("/file")
+    @GetMapping("/files")
     public ResponseEntity<List<FileDto>> getAllFiles() {
         return ResponseEntity.ok(fileService.getAllFiles());
     }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import pl.igormanagement.neighborhoodmanagement.EXCEPTIONS.AlreadyExistsException;
 import pl.igormanagement.neighborhoodmanagement.EXCEPTIONS.NotFoundException;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.Mapper.ParkingDtoMapper;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.Mapper.RoomDtoMapper;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.ParkingDto;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.ParkingDtoResponse;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Parking;
@@ -25,12 +26,17 @@ public class ParkingService {
     private final ParkingRepository parkingRepository;
     private final RoomService roomService;
 
-    public List<ParkingDto> getAllParking() {
-        return parkingRepository.findAll().stream().map(ParkingDtoMapper::map).toList();
+    public List<ParkingDtoResponse> getAllParking() {
+        return parkingRepository.findAll().stream().map(ParkingDtoMapper::response).toList();
     }
 
     public ParkingDto getParkingDto(Long id) {
         return parkingRepository.findById(id).map(ParkingDtoMapper::map)
+                .orElseThrow(() -> new NotFoundException("Parking not found"));
+    }
+
+    public ParkingDtoResponse getParkingDtoResponse(Long id) {
+        return parkingRepository.findById(id).map(ParkingDtoMapper::response)
                 .orElseThrow(() -> new NotFoundException("Parking not found"));
     }
 
@@ -41,19 +47,37 @@ public class ParkingService {
 
     @Transactional
     public ParkingDtoResponse createParking(ParkingDto dto) {
-        Parking parking = new Parking();
-        parking.setId(dto.getId());
 
         Optional<Parking> foundParking = parkingRepository.findByName(dto.getName());
         if (foundParking.isPresent()) {
             throw new AlreadyExistsException(String.format("Parking with name %s already exists", dto.getName()));
         }
 
-        parking.setName(dto.getName());
-
         Room createdRoom = roomService.createRoom(dto);
+
+        Parking parking = new Parking();
+        parking.setName(dto.getName());
         parking.setRoom(createdRoom);
+
         Parking savedParking = parkingRepository.save(parking);
+        return ParkingDtoMapper.response(savedParking);
+    }
+
+    @Transactional
+    public ParkingDtoResponse updateParking(Long id, ParkingDto dto) {
+        if (parkingRepository.findByName(dto.getName()).isPresent()) {
+            throw new AlreadyExistsException(String.format("Parking with name %s already exists", dto.getName()));
+        }
+
+        Parking foundParking = getParking(id);
+
+        Room foundRoom = foundParking.getRoom();
+        Room mappedRoom = RoomDtoMapper.mapFoundRoom(foundRoom, dto.getALength(), dto.getBLength());
+
+        foundParking.setName(dto.getName());
+        foundParking.setRoom(mappedRoom);
+
+        Parking savedParking = parkingRepository.save(foundParking);
         return ParkingDtoMapper.response(savedParking);
     }
 

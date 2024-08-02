@@ -2,6 +2,7 @@ package pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -30,13 +31,13 @@ public class OwnerController {
 
     @PostMapping("/create/owner")
     public ResponseEntity<?> createOwner(@Valid @RequestBody OwnerDto dto,
-                                                BindingResult result) {
+                                         BindingResult result) {
         if (result.hasErrors()) {
             List<String> errors = StaticMethods.checkForErrors(result);
             return ResponseEntity.badRequest().body(errors);
         }
         OwnerDto savedDto = ownerService.createOwner(dto);
-        return ResponseEntity.ok(savedDto);
+        return new ResponseEntity<>(savedDto, HttpStatus.CREATED);
     }
     @PutMapping("/update/owner/{id}")
     public ResponseEntity<?> updateOwner(@PathVariable("id") Long id,

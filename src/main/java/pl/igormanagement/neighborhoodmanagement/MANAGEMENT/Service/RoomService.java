@@ -39,6 +39,7 @@ public class RoomService {
         Room mappedRoom = RoomDtoMapper.map(dto.getALength(), dto.getBLength());
         return roomRepository.save(mappedRoom);
     }
+
     @Transactional
     public Room createRoom(ParkingDto dto) {
         Room mappedRoom = RoomDtoMapper.map(dto.getALength(), dto.getBLength());
