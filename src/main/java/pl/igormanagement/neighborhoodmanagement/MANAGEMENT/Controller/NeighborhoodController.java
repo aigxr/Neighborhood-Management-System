@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.NeighborhoodDto;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.ADDITIONALS.StaticMethods;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.NeighborhoodDtoResponse;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Service.NeighborhoodService;
 
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.List;
 public class NeighborhoodController {
     private final NeighborhoodService neighborhoodService;
 
-    @GetMapping("/neighborhood")
+    @GetMapping("/neighborhoods")
     public ResponseEntity<List<NeighborhoodDto>> getAllNeighborhoods() {
         return ResponseEntity.ok(neighborhoodService.getAllNeighborhoods());
     }
@@ -30,8 +31,8 @@ public class NeighborhoodController {
     }
 
     @GetMapping("/neighborhood/{id}")
-    public ResponseEntity<NeighborhoodDto> getNeighborhoodById(@PathVariable Long id) {
-        return ResponseEntity.ok(neighborhoodService.getNeighborhoodDto(id));
+    public ResponseEntity<NeighborhoodDtoResponse> getNeighborhoodById(@PathVariable Long id) {
+        return ResponseEntity.ok(neighborhoodService.getNeighborhoodDtoResponse(id));
     }
 
     @PostMapping("/create/neighborhood")

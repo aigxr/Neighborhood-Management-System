@@ -9,6 +9,7 @@ import pl.igormanagement.neighborhoodmanagement.EXCEPTIONS.NotFoundException;
 import pl.igormanagement.neighborhoodmanagement.EXCEPTIONS.OversizeException;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Block;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.BlockDto;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.BlockDtoResponse;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.Mapper.BlockDtoMapper;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Neighborhood;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.repository.BlockRepository;
@@ -25,6 +26,11 @@ public class BlockService {
 
     public List<BlockDto> getAllBlocks() {
         return blockRepository.findAll().stream().map(BlockDtoMapper::map).toList();
+    }
+
+    public List<BlockDto> getAllBlocksByNeighborhoodId(Long id) {
+        return blockRepository
+                .findAllByNeighborhoodId(id).stream().map(BlockDtoMapper::map).toList();
     }
 
     public BlockDto getBlockDto(Long id) {

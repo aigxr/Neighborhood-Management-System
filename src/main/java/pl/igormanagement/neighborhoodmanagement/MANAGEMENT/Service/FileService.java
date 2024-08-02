@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import pl.igormanagement.neighborhoodmanagement.EXCEPTIONS.NotFoundException;
 import pl.igormanagement.neighborhoodmanagement.EXCEPTIONS.ProblematicPersonException;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.FileDto;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.FileDtoResponse;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.Mapper.FileDtoMapper;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.File;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Person;
@@ -27,8 +28,8 @@ public class FileService {
         return fileRepository.findAll().stream().map(FileDtoMapper::map).toList();
     }
 
-    public List<FileDto> getAllFilesByTenantId(Long id) {
-        return fileRepository.findAllByTenantId(id).stream().map(FileDtoMapper::map).toList();
+    public List<FileDtoResponse> getAllFilesByTenantId(Long id) {
+        return fileRepository.findAllByTenantId(id).stream().map(FileDtoMapper::response).toList();
     }
 
     public FileDto getFileDto(Long id) {
@@ -36,19 +37,44 @@ public class FileService {
                 .orElseThrow(() -> new NotFoundException("File not found"));
     }
 
+//    public FileDtoResponse getFileDtoResponse(Long id) {
+//        return fileRepository.findById(id).map(FileDtoMapper::response)
+//                .orElseThrow(() -> new NotFoundException("File not found"));
+//    }
+
     public File getFile(Long id) {
         return fileRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("File not found"));
     }
 
     @Transactional
-    public FileDto createFile(FileDto fileDto) {
-        Tenant tenant = tenantService.getTenant(fileDto.getTenantId());
+    public FileDto createFile(FileDto dto) {
+        Tenant tenant = tenantService.getTenant(dto.getTenantId());
         File file = new File();
-        file.setTitle(fileDto.getTitle());
-        file.setDocument(fileDto.getDocument());
+        file.setTitle(dto.getTitle());
+        file.setDocument(dto.getDocument());
         file.setTenant(tenant);
         File savedFile = fileRepository.save(file);
         return FileDtoMapper.map(savedFile);
+    }
+
+    @Transactional
+    public FileDto updateFile(Long id, FileDto dto) {
+        Tenant tenant = tenantService.getTenant(dto.getTenantId());
+        File file = getFile(id);
+        if (dto.getTitle() != null)
+            file.setTitle(dto.getTitle());
+        if (dto.getDocument() != null)
+            file.setDocument(dto.getDocument());
+        if (dto.getTenantId() != null)
+            file.setTenant(tenant);
+        File savedFile = fileRepository.save(file);
+        return FileDtoMapper.map(savedFile);
+    }
+
+    @Transactional
+    public void deleteFile(Long id) {
+        File foundFile = getFile(id);
+        fileRepository.deleteById(foundFile.getId());
     }
 }

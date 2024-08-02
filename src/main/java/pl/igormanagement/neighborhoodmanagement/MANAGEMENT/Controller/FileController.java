@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.FileDto;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.ADDITIONALS.StaticMethods;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.FileDtoResponse;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Service.FileService;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class FileController {
     }
 
     @GetMapping("/file/tenant/{id}")
-    public ResponseEntity<List<FileDto>> getAllFilesByTenantId(@PathVariable("id") Long id) {
+    public ResponseEntity<List<FileDtoResponse>> getAllFilesByTenantId(@PathVariable("id") Long id) {
         return ResponseEntity.ok(fileService.getAllFilesByTenantId(id));
     }
 
@@ -42,5 +43,22 @@ public class FileController {
         }
         FileDto savedFile = fileService.createFile(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedFile);
+    }
+
+    @PutMapping("/update/file/{id}")
+    public ResponseEntity<?> updateFile(@PathVariable("id") Long id,
+                                        @Valid @RequestBody FileDto dto,
+                                        BindingResult result) {
+        if (result.hasErrors()) {
+            List<String> errors = StaticMethods.checkForErrors(result);
+            return ResponseEntity.badRequest().body(errors);
+        }
+        FileDto updatedFile = fileService.updateFile(id, dto);
+        return ResponseEntity.ok(updatedFile);
+    }
+
+    @DeleteMapping("/delete/file/{id}")
+    public void deleteFile(@PathVariable("id") Long id) {
+        fileService.deleteFile(id);
     }
 }

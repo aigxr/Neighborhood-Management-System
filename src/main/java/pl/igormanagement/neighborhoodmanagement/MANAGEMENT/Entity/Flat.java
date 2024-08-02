@@ -1,6 +1,7 @@
 package pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ public class Flat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Size(min = 3, max = 200, message = "Name length must be between 3 and 200")
     private String name;
 
     // for room area in meters

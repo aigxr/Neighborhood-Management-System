@@ -1,32 +1,24 @@
-package pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity;
+package pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Flat;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Owner {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class OwnerDtoResponse {
     private Long id;
     private String firstName;
     private String lastName;
     private Long pesel;
     private String address;
     private LocalDate birthDate;
-
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
-    private List<Flat> flats = new ArrayList<>();
-
+    private List<FlatDtoResponse> flats;
 }

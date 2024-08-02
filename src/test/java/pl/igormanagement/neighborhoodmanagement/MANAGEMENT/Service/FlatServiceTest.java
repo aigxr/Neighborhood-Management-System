@@ -176,6 +176,7 @@ class FlatServiceTest {
     @Test
     void FlatService_DeleteFlatById_ReturnNothing() {
         // when
+//        when(roomService.getRoom())
         when(flatRepository.findById(anyLong())).thenReturn(Optional.of(flat));
 
         flatService.deleteFlat(FLAT_ID);

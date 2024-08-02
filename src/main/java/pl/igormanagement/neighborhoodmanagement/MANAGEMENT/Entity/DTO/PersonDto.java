@@ -24,12 +24,11 @@ public class PersonDto {
     @Digits(integer = 11, fraction = 0, message = "PESEL must be a number of 11 digits")
     @Min(value = 10000000000L, message = "PESEL must be at least 11 digits")
     @Max(value = 99999999999L, message = "PESEL cannot be more than 11 digits")
-    private Long PESEL;
+    private Long pesel;
     @NotBlank(message = "Address cannot be blank")
     @Size(min = 5, max = 300, message = "Address must be between 5 and 300 characters")
     private String address;
     @Past(message = "Birth date must be in the past")
     @NotNull(message = "Birth date cannot be null")
     private LocalDate birthDate;
-    private Long rentalId;
 }

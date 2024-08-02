@@ -43,22 +43,8 @@ public class DeveloperService {
     @Transactional
     public DeveloperDto updateDeveloper(Long id, DeveloperDto dto) {
         Developer developer = getDeveloper(id);
-        if (dto.getFirstName() != null) {
-            developer.setFirstName(dto.getFirstName());
-        }
-        if (dto.getLastName() != null) {
-            developer.setLastName(dto.getLastName());
-        }
-        if (dto.getPESEL() != null) {
-            developer.setPESEL(dto.getPESEL());
-        }
-        if (dto.getBirthDate() != null) {
-            developer.setBirthDate(dto.getBirthDate());
-        }
-        if (dto.getAddress() != null) {
-            developer.setAddress(dto.getAddress());
-        }
-        Developer savedDeveloper = developerRepository.save(developer);
+        Developer mappedDeveloper = DeveloperDtoMapper.updateMap(developer, dto);
+        Developer savedDeveloper = developerRepository.save(mappedDeveloper);
         return DeveloperDtoMapper.map(savedDeveloper);
     }
 

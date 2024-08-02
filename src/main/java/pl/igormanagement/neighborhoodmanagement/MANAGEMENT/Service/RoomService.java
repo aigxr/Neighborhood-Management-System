@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import pl.igormanagement.neighborhoodmanagement.EXCEPTIONS.NotFoundException;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.FlatDto;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.Mapper.RoomDtoMapper;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.ParkingDto;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.RoomDto;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Flat;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Room;
@@ -37,5 +38,16 @@ public class RoomService {
     public Room createRoom(FlatDto dto) {
         Room mappedRoom = RoomDtoMapper.map(dto.getALength(), dto.getBLength());
         return roomRepository.save(mappedRoom);
+    }
+    @Transactional
+    public Room createRoom(ParkingDto dto) {
+        Room mappedRoom = RoomDtoMapper.map(dto.getALength(), dto.getBLength());
+        return roomRepository.save(mappedRoom);
+    }
+
+    @Transactional
+    public void deleteRoom(Long id) {
+        Room foundRoom = getRoom(id);
+        roomRepository.deleteById(foundRoom.getId());
     }
 }

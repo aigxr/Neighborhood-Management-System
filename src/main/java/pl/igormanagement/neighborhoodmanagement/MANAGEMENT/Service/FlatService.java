@@ -48,6 +48,7 @@ public class FlatService {
         Block foundBlock = blockService.getBlock(dto.getBlockId());
         Tenant foundTenant = dto.getTenantId() != null ? tenantService.getTenant(dto.getTenantId()) : null;
 
+
         Flat flat = new Flat();
         flat.setName(dto.getName());
         flat.setOwner(foundOwner);
@@ -89,7 +90,8 @@ public class FlatService {
 
     @Transactional
     public void deleteFlat(Long id) {
-        Flat foundFlat = getFlat(id);
-        flatRepository.deleteById(foundFlat.getId());
+        Flat foundFlat = getFlat(id); // room id cannot be null that's why exception is here
+        flatRepository.deleteById(foundFlat.getId()); // needs to be first otherwise it will violate not null constraint
+        roomService.deleteRoom(foundFlat.getRoom().getId());
     }
 }
