@@ -11,6 +11,7 @@
             <column name="name" type="varchar(10)">
                 <constraints nullable="false"/>
             </column>
+            <column name="is_rented" type="boolean" defaultValue="false"/>
             <column name="room_id" type="bigint">
                 <constraints nullable="false"/>
             </column>

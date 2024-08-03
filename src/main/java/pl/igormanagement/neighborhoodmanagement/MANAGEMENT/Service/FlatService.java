@@ -16,6 +16,7 @@ import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.repository.FlatReposi
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.repository.RoomRepository;
 
 import java.util.List;
+import java.util.Random;
 
 @Service
 @Slf4j
@@ -26,6 +27,7 @@ public class FlatService {
     private final BlockService blockService;
     private final TenantService tenantService;
     private final RoomService roomService;
+    private final ParkingService parkingService;
     public List<FlatDtoResponse> getAllFlats() {
         return flatRepository.findAll().stream().map(FlatDtoMapper::response).toList();
     }
@@ -93,5 +95,20 @@ public class FlatService {
         Flat foundFlat = getFlat(id); // room id cannot be null that's why exception is here
         flatRepository.deleteById(foundFlat.getId()); // needs to be first otherwise it will violate not null constraint
         roomService.deleteRoom(foundFlat.getRoom().getId());
+    }
+
+    @Transactional
+    public void buyParkingSpace(Long flatId) {
+        // RANDOM ASS GENERATOR
+        Random random = new Random();
+        Flat foundFlat = getFlat(flatId);
+
+        List<Parking> allAvailableParking = parkingService.getAllAvailableParking();
+
+        Parking randomParking = allAvailableParking.get(random.nextInt(1, allAvailableParking.size()));
+
+        foundFlat.setParking(randomParking);
+
+        flatRepository.save(foundFlat);
     }
 }

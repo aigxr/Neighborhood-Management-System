@@ -32,17 +32,21 @@ public class ParkingService {
 
     public ParkingDto getParkingDto(Long id) {
         return parkingRepository.findById(id).map(ParkingDtoMapper::map)
-                .orElseThrow(() -> new NotFoundException("Parking not found"));
+                .orElseThrow(() -> new NotFoundException("Parking space not found"));
     }
 
     public ParkingDtoResponse getParkingDtoResponse(Long id) {
         return parkingRepository.findById(id).map(ParkingDtoMapper::response)
-                .orElseThrow(() -> new NotFoundException("Parking not found"));
+                .orElseThrow(() -> new NotFoundException("Parking space not found"));
     }
 
     public Parking getParking(Long id) {
         return parkingRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Parking not found"));
+                .orElseThrow(() -> new NotFoundException("Parking space not found"));
+    }
+
+    public List<Parking> getAllAvailableParking() {
+        return parkingRepository.findAllByIsRentedFalse();
     }
 
     @Transactional
@@ -58,6 +62,10 @@ public class ParkingService {
         Parking parking = new Parking();
         parking.setName(dto.getName());
         parking.setRoom(createdRoom);
+        if (dto.getIsRented() != null)
+            parking.setIsRented(dto.getIsRented());
+        else
+            parking.setIsRented(false);
 
         Parking savedParking = parkingRepository.save(parking);
         return ParkingDtoMapper.response(savedParking);

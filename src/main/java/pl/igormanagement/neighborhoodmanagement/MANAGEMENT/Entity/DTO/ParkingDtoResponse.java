@@ -13,5 +13,6 @@ import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Room;
 public class ParkingDtoResponse {
     private Long id;
     private String name;
+    private Boolean isRented;
     private Room room;
 }

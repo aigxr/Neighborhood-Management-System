@@ -29,6 +29,7 @@ public class FlatDtoMapper {
         if (flat.getTenant() != null)
             dto.setTenantId(flat.getTenant().getId());
         dto.setRoom(flat.getRoom());
+        dto.setParking(flat.getParking());
         return dto;
     }
 

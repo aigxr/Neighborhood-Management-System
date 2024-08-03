@@ -58,4 +58,10 @@ public class FlatController {
     public void deleteFlat(@PathVariable("id") Long id) {
         flatService.deleteFlat(id);
     }
+
+    @PostMapping("/flat/{flatId}/rent/parking")
+    public ResponseEntity<?> rentParkingForFlat(@PathVariable("flatId") Long flatId) {
+        flatService.buyParkingSpace(flatId);
+        return ResponseEntity.ok("Parking successfully rented");
+    }
 }

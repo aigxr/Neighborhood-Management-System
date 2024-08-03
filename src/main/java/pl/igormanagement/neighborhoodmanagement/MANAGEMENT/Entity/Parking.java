@@ -16,6 +16,7 @@ public class Parking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private Boolean isRented;
 
     @OneToOne
     @JoinColumn(name = "room_id")

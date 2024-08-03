@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.ADDITIONALS.StaticMethods;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.Mapper.ParkingDtoMapper;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.ParkingDto;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.ParkingDtoResponse;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Parking;
@@ -22,6 +23,12 @@ public class ParkingController {
     @GetMapping("/parking")
     public ResponseEntity<List<ParkingDtoResponse>> getAllParking() {
         return ResponseEntity.ok(parkingService.getAllParking());
+    }
+
+    @GetMapping("/available/parking")
+    public ResponseEntity<List<ParkingDtoResponse>> getAllAvailableParking() {
+        return ResponseEntity.ok(parkingService.getAllAvailableParking()
+                .stream().map(ParkingDtoMapper::response).toList());
     }
 
     @GetMapping("/parking/{id}")

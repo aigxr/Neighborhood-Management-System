@@ -19,4 +19,5 @@ public class ParkingDto {
     private Double aLength;
     @NotNull(message = "B length must be provided")
     private Double bLength;
+    private Boolean isRented;
 }

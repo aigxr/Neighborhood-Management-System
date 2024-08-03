@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/neighborhood
+    username: root
+    password: whydoyoucare
+  liquibase:
+    contexts: prod

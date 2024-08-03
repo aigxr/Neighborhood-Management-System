@@ -21,6 +21,7 @@
             <column name="room_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
+            <column name="parking_id" type="bigint"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>
