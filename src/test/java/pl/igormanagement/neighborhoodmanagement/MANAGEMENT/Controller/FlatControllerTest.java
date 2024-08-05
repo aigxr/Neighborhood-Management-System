@@ -186,23 +186,30 @@ class FlatControllerTest {
                 .andDo(MockMvcResultHandlers.print());
     }
 
-//    @Test
-//    void FlatController_CheckThrowWhenCreateFlat_ReturnErrors() throws Exception {
-//
-//        FlatDto wrongDto = new FlatDto();
-//        wrongDto.setName("sa");
-//
-//        FlatDtoResponse wrongResponseDto = new FlatDtoResponse();
-//        wrongDto.setName("sa");
-//
-//        given(flatService.createFlat(any(FlatDto.class))).willReturn(wrongResponseDto);
-//
-//        ResultActions response = mockMvc.perform(post("/create/flat")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(objectMapper.writeValueAsString(wrongDto)));
-//
-////        System.out.println(jsonPath("$.errors"));
-//
-//        response.andExpect(jsonPath("$.errors", is("something")));
-//    }
+    @Test
+    void FlatController_RentParkingForFlat_ReturnMessage() throws Exception {
+        ResultActions response = mockMvc.perform(post("/flat/" + FLAT_ID + "/rent/parking")
+                .contentType(MediaType.APPLICATION_JSON));
+
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$", is("Parking successfully rented")));
+    }
+
+    @Test
+    void FlatController_AssignPersonToAFlat_ReturnMessage() throws Exception {
+        ResultActions response = mockMvc.perform(post("/flat/" + FLAT_ID + "/assign/1")
+                .contentType(MediaType.APPLICATION_JSON));
+
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$", is("Person successfully assigned")));
+    }
+
+    @Test
+    void FlatController_RemovePersonToAFlat_ReturnMessage() throws Exception {
+        ResultActions response = mockMvc.perform(post("/flat/" + FLAT_ID + "/remove/1")
+                .contentType(MediaType.APPLICATION_JSON));
+
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$", is("Person successfully removed")));
+    }
 }

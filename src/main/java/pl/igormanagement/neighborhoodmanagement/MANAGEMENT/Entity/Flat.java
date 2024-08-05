@@ -40,6 +40,10 @@ public class Flat {
     @JoinColumn(name = "room_id")
     private Room room;
 
+    @OneToOne
+    @JoinColumn(name = "parking_id")
+    private Parking parking;
+
     @OneToMany(mappedBy = "flat", cascade = CascadeType.ALL)
     private List<Person> residents = new ArrayList<>();
 }

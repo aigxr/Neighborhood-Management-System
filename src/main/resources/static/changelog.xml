@@ -13,6 +13,8 @@
     <include file="0009-neighborhood.xml" relativeToChangelogFile="true"/>
     <include file="0010-owner.xml" relativeToChangelogFile="true"/>
     <include file="0011-parking.xml" relativeToChangelogFile="true"/>
+    <include file="0012-whole.xml" relativeToChangelogFile="true"/>
+    <include file="0013-vehicle.xml" relativeToChangelogFile="true"/>
     <include file="9999-constraints.xml" relativeToChangelogFile="true"/>
 
     <include file="../sqldata/0001.sql" relativeToChangelogFile="true"/>

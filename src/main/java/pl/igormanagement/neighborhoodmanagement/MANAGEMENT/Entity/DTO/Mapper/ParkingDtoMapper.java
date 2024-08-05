@@ -9,6 +9,8 @@ public class ParkingDtoMapper {
         ParkingDto dto = new ParkingDto();
         dto.setId(parking.getId());
         dto.setName(parking.getName());
+        dto.setIsRented(parking.getIsRented());
+        dto.setVehicleId(parking.getVehicle().getId());
         return dto;
     }
 
@@ -17,6 +19,8 @@ public class ParkingDtoMapper {
         dto.setId(parking.getId());
         dto.setName(parking.getName());
         dto.setRoom(parking.getRoom());
+        dto.setIsRented(parking.getIsRented());
+        dto.setVehicle(parking.getVehicle());
         return dto;
     }
 }

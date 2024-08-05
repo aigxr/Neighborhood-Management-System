@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.ADDITIONALS.StaticMethods;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.FlatDto;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.FlatDtoResponse;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.PersonDto;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Person;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Service.FlatService;
 
 import java.util.List;
@@ -57,5 +59,31 @@ public class FlatController {
     @DeleteMapping("/delete/flat/{id}")
     public void deleteFlat(@PathVariable("id") Long id) {
         flatService.deleteFlat(id);
+    }
+
+    @PostMapping("/flat/{flatId}/rent/parking")
+    public ResponseEntity<?> rentParkingForFlat(@PathVariable("flatId") Long flatId) {
+        flatService.buyParkingSpace(flatId);
+        return ResponseEntity.ok("Parking successfully rented");
+    }
+
+    @PostMapping("/flat/{flatId}/assign/{personId}")
+    public ResponseEntity<?> assignPersonToFlat(@PathVariable("flatId") Long flatId,
+                                                @PathVariable("personId") Long personId) {
+        flatService.assignPersonToAFlat(flatId, personId);
+        return ResponseEntity.ok("Person successfully assigned");
+    }
+
+    @PostMapping("/flat/{flatId}/remove/{personId}")
+    public ResponseEntity<?> removePersonFromFlat(@PathVariable("flatId") Long flatId,
+                                                  @PathVariable("personId") Long personId) {
+        flatService.removePersonFromFlat(flatId, personId);
+        return ResponseEntity.ok("Person successfully removed");
+    }
+
+    @GetMapping("/flat/{id}/residents")
+    public ResponseEntity<List<PersonDto>> getResidentsOfFlat(@PathVariable("id") Long id) {
+        List<PersonDto> foundResidents = flatService.getResidentsOfFlat(id);
+        return ResponseEntity.ok(foundResidents);
     }
 }
