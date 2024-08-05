@@ -10,6 +10,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import pl.igormanagement.neighborhoodmanagement.EXCEPTIONS.AllSpaceTakenException;
+import pl.igormanagement.neighborhoodmanagement.EXCEPTIONS.AlreadyExistsException;
 import pl.igormanagement.neighborhoodmanagement.EXCEPTIONS.NotFoundException;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.*;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.FlatDto;
@@ -17,10 +19,7 @@ import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.FlatDtoRes
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.RoomDto;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.repository.FlatRepository;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,6 +34,8 @@ class FlatServiceTest {
     private static final Long OWNER_ID = 1L;
     private static final Long BLOCK_ID = 1L;
     private static final Long TENANT_ID = 1L;
+    private static final Long PERSON_ID = 1L;
+    private static final Long PARKING_ID = 1L;
 
 
     @Mock private FlatRepository flatRepository;
@@ -42,6 +43,9 @@ class FlatServiceTest {
     @Mock private BlockService blockService;
     @Mock private TenantService tenantService;
     @Mock private RoomService roomService;
+    @Mock private ParkingService parkingService;
+    @Mock private PersonService personService;
+
 
     private FlatService flatService;
     private Room room;
@@ -50,11 +54,29 @@ class FlatServiceTest {
     private Tenant tenant;
     private Flat flat;
     private FlatDto flatDto;
+    private Person person;
+    private Parking parking1;
+    private Parking parking2;
 
     @BeforeEach
     void init() {
-        flatService = new FlatService(flatRepository, ownerService, blockService, tenantService, roomService);
+        flatService = new FlatService(flatRepository, ownerService, blockService,
+                tenantService, roomService, parkingService, personService);
         // all simulation is defined here
+        parking1 = new Parking();
+        parking1.setId(PARKING_ID);
+        parking1.setIsRented(false);
+        parking1.setName("A");
+
+        parking2 = new Parking();
+        parking2.setId(2L);
+        parking2.setIsRented(false);
+        parking2.setName("B");
+
+        person = new Person();
+        person.setId(PERSON_ID);
+        person.setFirstName("John");
+
         room = new Room();
         room.setId(1L);
         room.setALength(30.0);
@@ -79,6 +101,7 @@ class FlatServiceTest {
         flat.setBlock(block);
         flat.setTenant(tenant);
         flat.setRoom(room);
+        flat.setParking(null);
 
         // data to change / create a new flat
         flatDto = new FlatDto();
@@ -90,6 +113,8 @@ class FlatServiceTest {
         flatDto.setOwnerId(OWNER_ID);
         flatDto.setBlockId(BLOCK_ID);
         flatDto.setTenantId(TENANT_ID);
+        flatDto.setParkingId(PARKING_ID);
+
     }
 
     @Test
@@ -129,7 +154,6 @@ class FlatServiceTest {
         assertThat(foundFlat.getId()).isEqualTo(FLAT_ID);
         assertThat(foundFlat.getName()).isEqualTo("House");
         assertThat(foundFlat.getRoom()).isEqualTo(room);
-
     }
 
     @Test
@@ -142,7 +166,6 @@ class FlatServiceTest {
         verify(flatRepository).findById(anyLong());
 
         // then
-
         assertThat(foundFlat.getId()).isEqualTo(FLAT_ID);
         assertThat(foundFlat.getName()).isEqualTo("House");
         assertThat(foundFlat.getRoom()).isEqualTo(room);
@@ -175,13 +198,110 @@ class FlatServiceTest {
 
     @Test
     void FlatService_DeleteFlatById_ReturnNothing() {
-        // when
-//        when(roomService.getRoom())
         when(flatRepository.findById(anyLong())).thenReturn(Optional.of(flat));
 
         flatService.deleteFlat(FLAT_ID);
         verify(flatRepository, times(1)).deleteById(FLAT_ID);
         verifyNoMoreInteractions(flatRepository);
+    }
+
+    @Test
+    void FlatService_BuyParkingSpace_ReturnNothing() {
+        when(flatRepository.findById(anyLong())).thenReturn(Optional.of(flat));
+        when(parkingService.getAllAvailableParking()).thenReturn(Arrays.asList(parking1));
+
+        flatService.buyParkingSpace(FLAT_ID);
+        verify(flatRepository).save(any(Flat.class));
+        verify(parkingService).getAllAvailableParking();
+
+        assertThat(flat.getParking()).isNotNull();
+        assertThat(flat.getParking().getIdentifier()).isEqualTo("A1");
+        assertThat(flat.getParking().getIsRented()).isTrue();
+
+    }
+    @Test
+    void FlatService_ThrowWhenBuyParkingSpace_AlreadyExistsException() {
+        when(flatRepository.findById(anyLong())).thenReturn(Optional.of(flat));
+        flat.setParking(parking1);
+
+        assertThatThrownBy(() -> flatService.buyParkingSpace(FLAT_ID))
+                .isInstanceOf(AlreadyExistsException.class)
+                .hasMessageStartingWith("Parking space")
+                .hasMessageContaining("A1");
+    }
+    @Test
+    void FlatService_ThrowWhenBuyParkingSpace_AllSpaceTakenException() {
+        when(flatRepository.findById(anyLong())).thenReturn(Optional.of(flat));
+        when(parkingService.getAllAvailableParking()).thenReturn(Collections.emptyList()); // assume that when the list is empty
+        // then all parking spaces are occupied :)
+
+        assertThatThrownBy(() -> flatService.buyParkingSpace(FLAT_ID))
+                .isInstanceOf(AllSpaceTakenException.class);
+    }
+
+    @Test
+    void FlatService_AssignPersonToAFlat_ReturnNothing() {
+        when(flatRepository.findById(anyLong())).thenReturn(Optional.of(flat));
+        when(personService.getPerson(anyLong())).thenReturn(person);
+
+        flatService.assignPersonToAFlat(FLAT_ID, PERSON_ID);
+        verify(flatRepository).save(any(Flat.class));
+//        verify(flat.getResidents()).add(any(Person.class));
+
+        assertThat(flat.getResidents().get(0)).isNotNull();
+        assertThat(flat.getResidents().get(0).getFirstName()).isEqualTo("John");
+        assertThat(person.getFlat().getId()).isEqualTo(FLAT_ID);
+    }
+
+    @Test
+    void FlatService_ThrowWhenAssignPersonToAFlat_FlatNotFound() {
+        when(flatRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> flatService.assignPersonToAFlat(FLAT_ID, PERSON_ID))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessageContaining("not found");
+    }
+    @Test
+    void FlatService_ThrowWhenAssignPersonToAFlat_PersonAlreadyExistsInOtherFlatException() {
+        when(flatRepository.findById(anyLong())).thenReturn(Optional.of(flat));
+        when(personService.getPerson(anyLong())).thenReturn(person);
+        person.setFlat(flat);
+
+        assertThatThrownBy(() -> flatService.assignPersonToAFlat(FLAT_ID, PERSON_ID))
+                .isInstanceOf(AlreadyExistsException.class)
+                .hasMessageContaining("First remove");
+    }
+
+    @Test
+    void FlatService_RemovePersonToAFlat_ReturnNothing() {
+        when(flatRepository.findById(anyLong())).thenReturn(Optional.of(flat));
+        when(personService.getPerson(anyLong())).thenReturn(person);
+
+        person.setFlat(flat);
+
+        flatService.removePersonFromFlat(FLAT_ID, PERSON_ID);
+
+        assertThat(flat.getResidents()).isEmpty();
+        assertThat(person.getFlat()).isNull();
+    }
+
+    @Test
+    void FlatService_ThrowWhenRemovePersonToAFlat_PersonNotYetAssignedException() {
+        when(flatRepository.findById(anyLong())).thenReturn(Optional.of(flat));
+        when(personService.getPerson(anyLong())).thenReturn(person);
+
+        assertThatThrownBy(() -> flatService.removePersonFromFlat(FLAT_ID, PERSON_ID))
+                .isInstanceOf(AlreadyExistsException.class)
+                .hasMessageContaining("not yet assigned");
+    }
+
+    @Test
+    void FlatService_ThrowWhenRemovePersonToAFlat_FlatNotFoundException() {
+        when(flatRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> flatService.removePersonFromFlat(FLAT_ID, PERSON_ID))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessageContaining("not found");
     }
 
     @Test

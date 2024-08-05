@@ -11,10 +11,11 @@
             <column name="name" type="varchar(10)">
                 <constraints nullable="false"/>
             </column>
-            <column name="is_rented" type="boolean" defaultValue="false"/>
+            <column name="free_area" type="float(2)"/>
             <column name="room_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
+            <column name="vehicle_id" type="bigint"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.igormanagement.neighborhoodmanagement.VEHICLES.Vehicle;
 
 @Entity
 @Getter
@@ -21,4 +22,12 @@ public class Parking {
     @OneToOne
     @JoinColumn(name = "room_id")
     private Room room;
+
+    @OneToOne
+    @JoinColumn(name = "vehicle_id")
+    private Vehicle vehicle;
+
+    public String getIdentifier() {
+        return this.getName() + this.getId();
+    }
 }

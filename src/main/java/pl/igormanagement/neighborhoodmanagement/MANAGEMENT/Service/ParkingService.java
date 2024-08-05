@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.igormanagement.neighborhoodmanagement.EXCEPTIONS.AlreadyExistsException;
+import pl.igormanagement.neighborhoodmanagement.EXCEPTIONS.ItemTooBigException;
 import pl.igormanagement.neighborhoodmanagement.EXCEPTIONS.NotFoundException;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.Mapper.ParkingDtoMapper;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.Mapper.RoomDtoMapper;
@@ -15,6 +16,7 @@ import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Parking;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Room;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.repository.ParkingRepository;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.repository.RoomRepository;
+import pl.igormanagement.neighborhoodmanagement.VEHICLES.Vehicle;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +27,7 @@ import java.util.Optional;
 public class ParkingService {
     private final ParkingRepository parkingRepository;
     private final RoomService roomService;
+    private final VehicleService vehicleService;
 
     public List<ParkingDtoResponse> getAllParking() {
         return parkingRepository.findAll().stream().map(ParkingDtoMapper::response).toList();
@@ -62,10 +65,7 @@ public class ParkingService {
         Parking parking = new Parking();
         parking.setName(dto.getName());
         parking.setRoom(createdRoom);
-        if (dto.getIsRented() != null)
-            parking.setIsRented(dto.getIsRented());
-        else
-            parking.setIsRented(false);
+        parking.setIsRented(false);
 
         Parking savedParking = parkingRepository.save(parking);
         return ParkingDtoMapper.response(savedParking);
@@ -94,5 +94,18 @@ public class ParkingService {
         Parking foundParking = getParking(id);
         parkingRepository.deleteById(foundParking.getId());
         roomService.deleteRoom(foundParking.getRoom().getId());
+    }
+
+    @Transactional
+    public void addVehicle(Long parkingId, Long vehicleId) {
+        Parking foundParking = getParking(parkingId);
+        Vehicle foundVehicle = vehicleService.getVehicle(vehicleId);
+
+        Room space = foundParking.getRoom();
+        space.setRoomArea(space.getRoomArea() - (foundVehicle.getALength() * foundVehicle.getBLength()));
+
+        foundParking.setVehicle(foundVehicle);
+
+        parkingRepository.save(foundParking);
     }
 }

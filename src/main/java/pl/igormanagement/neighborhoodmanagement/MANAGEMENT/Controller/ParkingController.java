@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.igormanagement.neighborhoodmanagement.EXCEPTIONS.Response;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.ADDITIONALS.StaticMethods;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.Mapper.ParkingDtoMapper;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.ParkingDto;
@@ -62,5 +63,12 @@ public class ParkingController {
     @DeleteMapping("/delete/parking/{id}")
     public void deleteOwner(@PathVariable("id") Long id) {
         parkingService.deleteParking(id);
+    }
+
+    @PostMapping("/parking/{parkingId}/add/{vehicleId}")
+    public ResponseEntity<?> addVehicleToParkingSpot(@PathVariable("parkingId") Long parkingId,
+                                        @PathVariable("vehicleId") Long vehicleId) {
+        parkingService.addVehicle(parkingId, vehicleId);
+        return ResponseEntity.ok("Vehicle successfully added to parking spot");
     }
 }

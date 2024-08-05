@@ -14,6 +14,7 @@ import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.RoomDto;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Parking;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Room;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.repository.ParkingRepository;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.repository.VehicleRepository;
 
 import java.util.Optional;
 
@@ -29,6 +30,8 @@ class ParkingServiceTest {
     private static final Long PARKING_ID = 1L;
     @Mock
     private ParkingRepository parkingRepository;
+    @Mock
+    private VehicleService vehicleService;
 
     @Mock
     private RoomService roomService;
@@ -39,7 +42,7 @@ class ParkingServiceTest {
     private Room room;
     @BeforeEach
     void init() {
-        parkingService = new ParkingService(parkingRepository, roomService);
+        parkingService = new ParkingService(parkingRepository, roomService, vehicleService);
 
         // data passed
         parkingDto = new ParkingDto();
@@ -104,7 +107,7 @@ class ParkingServiceTest {
 
         assertThatThrownBy(() -> parkingService.updateParking(PARKING_ID, parkingDto))
                 .isInstanceOf(NotFoundException.class)
-                .hasMessageStartingWith("Parking not");
+                .hasMessageStartingWith("Parking space not");
     }
 
     @Test
@@ -113,6 +116,6 @@ class ParkingServiceTest {
 
         assertThatThrownBy(() -> parkingService.deleteParking(PARKING_ID))
                 .isInstanceOf(NotFoundException.class)
-                .hasMessageStartingWith("Parking not");
+                .hasMessageStartingWith("Parking space not");
     }
 }

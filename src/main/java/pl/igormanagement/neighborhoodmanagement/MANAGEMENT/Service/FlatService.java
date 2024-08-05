@@ -5,14 +5,19 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import pl.igormanagement.neighborhoodmanagement.EXCEPTIONS.AllSpaceTakenException;
+import pl.igormanagement.neighborhoodmanagement.EXCEPTIONS.AlreadyExistsException;
 import pl.igormanagement.neighborhoodmanagement.EXCEPTIONS.NotFoundException;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.*;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.FlatDto;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.FlatDtoResponse;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.Mapper.FlatDtoMapper;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.Mapper.PersonDtoMapper;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.Mapper.RoomDtoMapper;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.PersonDto;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.RoomDto;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.repository.FlatRepository;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.repository.PersonRepository;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.repository.RoomRepository;
 
 import java.util.List;
@@ -28,6 +33,7 @@ public class FlatService {
     private final TenantService tenantService;
     private final RoomService roomService;
     private final ParkingService parkingService;
+    private final PersonService personService;
     public List<FlatDtoResponse> getAllFlats() {
         return flatRepository.findAll().stream().map(FlatDtoMapper::response).toList();
     }
@@ -102,13 +108,58 @@ public class FlatService {
         // RANDOM ASS GENERATOR
         Random random = new Random();
         Flat foundFlat = getFlat(flatId);
+        if (foundFlat.getParking() != null)
+            throw new AlreadyExistsException(String
+                    .format("Parking space %s is already rented for this flat", foundFlat.getParking().getIdentifier()));
 
         List<Parking> allAvailableParking = parkingService.getAllAvailableParking();
-
-        Parking randomParking = allAvailableParking.get(random.nextInt(1, allAvailableParking.size()));
+        if (allAvailableParking.isEmpty()) {
+            throw new AllSpaceTakenException();
+        }
+        Parking randomParking = allAvailableParking.get(random.nextInt(0, allAvailableParking.size()));
+        randomParking.setIsRented(true);
 
         foundFlat.setParking(randomParking);
 
         flatRepository.save(foundFlat);
+    }
+
+    @Transactional
+    public void assignPersonToAFlat(Long flatId, Long personId) {
+        Flat foundFlat = getFlat(flatId);
+
+        Person foundPerson = personService.getPerson(personId);
+        if (foundPerson.getFlat() != null) {
+            throw new AlreadyExistsException(String
+                    .format("Person is already assigned to %s flat. First remove person from other flat to assign to another.",
+                            foundPerson.getFlat().getName()));
+        }
+
+        foundPerson.setFlat(foundFlat);
+
+        foundFlat.getResidents().add(foundPerson);
+
+        flatRepository.save(foundFlat);
+    }
+
+    @Transactional
+    public void removePersonFromFlat(Long flatId, Long personId) {
+        Flat foundFlat = getFlat(flatId);
+
+        Person foundPerson = personService.getPerson(personId);
+        if (foundPerson.getFlat() == null) {
+            throw new AlreadyExistsException("Person is not yet assigned to any flat.");
+        }
+
+        foundPerson.setFlat(null);
+
+        foundFlat.getResidents().remove(foundPerson);
+
+        flatRepository.save(foundFlat);
+    }
+
+    public List<PersonDto> getResidentsOfFlat(Long id) {
+        Flat foundFlat = getFlat(id);
+        return foundFlat.getResidents().stream().map(PersonDtoMapper::map).toList();
     }
 }
