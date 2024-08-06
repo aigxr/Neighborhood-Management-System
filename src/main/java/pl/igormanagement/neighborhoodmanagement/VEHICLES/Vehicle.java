@@ -19,4 +19,5 @@ public class Vehicle {
     private String engine;
     private Double aLength;
     private Double bLength;
+    private Boolean isAssigned;
 }

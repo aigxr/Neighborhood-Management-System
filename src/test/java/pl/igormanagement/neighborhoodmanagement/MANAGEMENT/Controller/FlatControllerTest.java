@@ -196,8 +196,27 @@ class FlatControllerTest {
     }
 
     @Test
+    void FlatController_AssignTenantToAFlat_ReturnMessage() throws Exception {
+        ResultActions response = mockMvc.perform(post("/flat/" + FLAT_ID + "/assign/tenant/1")
+                .contentType(MediaType.APPLICATION_JSON));
+
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$", is("Tenant successfully assigned")));
+    }
+
+    @Test
+    void FlatController_RemoveTenantToAFlat_ReturnMessage() throws Exception {
+        ResultActions response = mockMvc.perform(post("/flat/" + FLAT_ID + "/remove/tenant") // without tenants id
+                .contentType(MediaType.APPLICATION_JSON));
+
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$", is("Tenant successfully removed")))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
     void FlatController_AssignPersonToAFlat_ReturnMessage() throws Exception {
-        ResultActions response = mockMvc.perform(post("/flat/" + FLAT_ID + "/assign/1")
+        ResultActions response = mockMvc.perform(post("/flat/" + FLAT_ID + "/assign/person/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(status().isOk())
@@ -206,7 +225,7 @@ class FlatControllerTest {
 
     @Test
     void FlatController_RemovePersonToAFlat_ReturnMessage() throws Exception {
-        ResultActions response = mockMvc.perform(post("/flat/" + FLAT_ID + "/remove/1")
+        ResultActions response = mockMvc.perform(post("/flat/" + FLAT_ID + "/remove/person/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(status().isOk())

@@ -18,6 +18,8 @@ import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.repository.ParkingRep
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.repository.RoomRepository;
 import pl.igormanagement.neighborhoodmanagement.VEHICLES.Vehicle;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Optional;
 
@@ -97,15 +99,41 @@ public class ParkingService {
     }
 
     @Transactional
-    public void addVehicle(Long parkingId, Long vehicleId) {
+    public ParkingDtoResponse addVehicle(Long parkingId, Long vehicleId) {
         Parking foundParking = getParking(parkingId);
+        if (foundParking.getVehicle() != null) {
+            throw new AlreadyExistsException(String.format("Vehicle %s is currently assigned to that parking spot",
+                    foundParking.getVehicle().getName()));
+        }
         Vehicle foundVehicle = vehicleService.getVehicle(vehicleId);
+        foundParking.setVehicle(foundVehicle);
+        foundVehicle.setIsAssigned(true);
 
         Room space = foundParking.getRoom();
         space.setRoomArea(space.getRoomArea() - (foundVehicle.getALength() * foundVehicle.getBLength()));
 
-        foundParking.setVehicle(foundVehicle);
+        BigDecimal bigDecimal = BigDecimal.valueOf(space.getRoomArea());
+        double roundedArea = bigDecimal.setScale(2, RoundingMode.HALF_UP).doubleValue();
 
-        parkingRepository.save(foundParking);
+        space.setRoomArea(roundedArea);
+
+        Parking savedParking = parkingRepository.save(foundParking);
+        return ParkingDtoMapper.response(savedParking);
+    }
+
+    @Transactional
+    public ParkingDtoResponse removeVehicle(Long parkingId) {
+        Parking foundParking = getParking(parkingId);
+
+        if (foundParking.getVehicle() == null) {
+            throw new NotFoundException("Vehicle is not yet assigned to be removed");
+        }
+        Room space = foundParking.getRoom();
+        space.setRoomArea(4.5);
+        foundParking.getVehicle().setIsAssigned(false);
+        foundParking.setVehicle(null);
+
+        Parking savedParking = parkingRepository.save(foundParking);
+        return ParkingDtoMapper.response(savedParking);
     }
 }

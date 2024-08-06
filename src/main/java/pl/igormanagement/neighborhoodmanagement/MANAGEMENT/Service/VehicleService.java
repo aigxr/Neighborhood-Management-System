@@ -30,6 +30,7 @@ public class VehicleService {
 
     public Vehicle createVehicle(VehicleDto dto) {
         Vehicle mappedVehicle = VehicleDtoMapper.map(dto);
+        mappedVehicle.setIsAssigned(false);
         return vehicleRepository.save(mappedVehicle);
     }
 
