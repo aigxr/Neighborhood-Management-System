@@ -10,7 +10,7 @@
     </changeSet>
     <changeSet id="13" author="igor">
         <addColumn tableName="parking">
-            <column name="is_rented" type="bool" defaultValue="false"/>
+            <column name="is_rented" type="bit" defaultValue="false"/>
         </addColumn>
     </changeSet>
 </databaseChangeLog>
