@@ -17,5 +17,5 @@
     <include file="0013-vehicle.xml" relativeToChangelogFile="true"/>
     <include file="9999-constraints.xml" relativeToChangelogFile="true"/>
 
-    <include file="../sqldata/0001.sql" relativeToChangelogFile="true"/>
+    <include file="../sqldata/0001.sql" relativeToChangelogFile="true" context="dev"/>
 </databaseChangeLog>

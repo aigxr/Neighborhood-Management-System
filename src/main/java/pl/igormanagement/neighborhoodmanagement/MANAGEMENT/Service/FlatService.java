@@ -125,7 +125,34 @@ public class FlatService {
     }
 
     @Transactional
-    public void assignPersonToAFlat(Long flatId, Long personId) {
+    public Flat assignTenantToAFlat(Long flatId, Long tenantId) {
+        Flat foundFlat = getFlat(flatId);
+
+        Tenant foundTenant = tenantService.getTenant(tenantId);
+        if (foundFlat.getTenant() != null) {
+            throw new AlreadyExistsException("Tenant is already assigned to such flat.");
+        }
+
+        foundFlat.setTenant(foundTenant);
+
+        return flatRepository.save(foundFlat);
+    }
+
+    @Transactional
+    public Flat removeTenantFromAFlat(Long flatId) {
+        Flat foundFlat = getFlat(flatId);
+
+        if (foundFlat.getTenant() == null) {
+            throw new NotFoundException("Tenant is not yet assigned to such flat.");
+        }
+
+        foundFlat.setTenant(null);
+
+        return flatRepository.save(foundFlat);
+    }
+
+    @Transactional
+    public Flat assignPersonToAFlat(Long flatId, Long personId) {
         Flat foundFlat = getFlat(flatId);
 
         Person foundPerson = personService.getPerson(personId);
@@ -139,11 +166,11 @@ public class FlatService {
 
         foundFlat.getResidents().add(foundPerson);
 
-        flatRepository.save(foundFlat);
+        return flatRepository.save(foundFlat);
     }
 
     @Transactional
-    public void removePersonFromFlat(Long flatId, Long personId) {
+    public Flat removePersonFromFlat(Long flatId, Long personId) {
         Flat foundFlat = getFlat(flatId);
 
         Person foundPerson = personService.getPerson(personId);
@@ -155,7 +182,7 @@ public class FlatService {
 
         foundFlat.getResidents().remove(foundPerson);
 
-        flatRepository.save(foundFlat);
+        return flatRepository.save(foundFlat);
     }
 
     public List<PersonDto> getResidentsOfFlat(Long id) {

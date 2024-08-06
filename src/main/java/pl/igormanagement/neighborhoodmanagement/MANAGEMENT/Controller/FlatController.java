@@ -12,6 +12,7 @@ import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.ADDITIONALS.St
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.FlatDto;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.FlatDtoResponse;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.PersonDto;
+import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Flat;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Person;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Service.FlatService;
 
@@ -67,18 +68,31 @@ public class FlatController {
         return ResponseEntity.ok("Parking successfully rented");
     }
 
-    @PostMapping("/flat/{flatId}/assign/{personId}")
+    @PostMapping("/flat/{flatId}/assign/person/{personId}")
     public ResponseEntity<?> assignPersonToFlat(@PathVariable("flatId") Long flatId,
                                                 @PathVariable("personId") Long personId) {
-        flatService.assignPersonToAFlat(flatId, personId);
+        Flat response = flatService.assignPersonToAFlat(flatId, personId);
         return ResponseEntity.ok("Person successfully assigned");
     }
 
-    @PostMapping("/flat/{flatId}/remove/{personId}")
+    @PostMapping("/flat/{flatId}/remove/person/{personId}")
     public ResponseEntity<?> removePersonFromFlat(@PathVariable("flatId") Long flatId,
                                                   @PathVariable("personId") Long personId) {
-        flatService.removePersonFromFlat(flatId, personId);
+        Flat response = flatService.removePersonFromFlat(flatId, personId);
         return ResponseEntity.ok("Person successfully removed");
+    }
+
+    @PostMapping("/flat/{flatId}/assign/tenant/{tenantId}")
+    public ResponseEntity<?> assignTenantToFlat(@PathVariable("flatId") Long flatId,
+                                                @PathVariable("tenantId") Long tenantId) {
+        Flat response = flatService.assignTenantToAFlat(flatId, tenantId);
+        return ResponseEntity.ok("Tenant successfully assigned");
+    }
+
+    @PostMapping("/flat/{flatId}/remove/tenant")
+    public ResponseEntity<?> removeTenantFromFlat(@PathVariable("flatId") Long flatId) {
+        Flat response = flatService.removeTenantFromAFlat(flatId);
+        return ResponseEntity.ok("Tenant successfully removed");
     }
 
     @GetMapping("/flat/{id}/residents")

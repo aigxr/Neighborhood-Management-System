@@ -14,6 +14,8 @@ import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.DTO.ParkingDto
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Entity.Parking;
 import pl.igormanagement.neighborhoodmanagement.MANAGEMENT.Service.ParkingService;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @RestController
@@ -68,7 +70,15 @@ public class ParkingController {
     @PostMapping("/parking/{parkingId}/add/{vehicleId}")
     public ResponseEntity<?> addVehicleToParkingSpot(@PathVariable("parkingId") Long parkingId,
                                         @PathVariable("vehicleId") Long vehicleId) {
-        parkingService.addVehicle(parkingId, vehicleId);
-        return ResponseEntity.ok("Vehicle successfully added to parking spot");
+        ParkingDtoResponse response = parkingService.addVehicle(parkingId, vehicleId);
+        return ResponseEntity.ok("Vehicle successfully added to parking spot. Current free space: " +
+                response.getRoom().getRoomArea());
+    }
+
+    @PostMapping("/parking/{id}/remove")
+    public ResponseEntity<?> removeVehicleFromParkingSpot(@PathVariable("id") Long id) {
+        ParkingDtoResponse response = parkingService.removeVehicle(id);
+        return ResponseEntity.ok("Vehicle successfully removed from parking spot." +
+                " Current free space: " + response.getRoom().getRoomArea() + " square meters");
     }
 }

@@ -19,5 +19,5 @@ public class VehicleDto {
     private Double aLength;
     @Max(value = 2, message = "B length must be less or equal to 2")
     private Double bLength;
-    private Double area; // in quadratic meters
+    private Boolean isAssigned;
 }

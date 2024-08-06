@@ -99,6 +99,7 @@ class FlatServiceTest {
         flat.setName("House");
         flat.setOwner(owner);
         flat.setBlock(block);
+        flat.setTenant(null);
         flat.setTenant(tenant);
         flat.setRoom(room);
         flat.setParking(null);
@@ -240,17 +241,60 @@ class FlatServiceTest {
     }
 
     @Test
-    void FlatService_AssignPersonToAFlat_ReturnNothing() {
+    void FlatService_AssignTenantToFlat_ReturnFlat() {
+        flat.setTenant(null);
+        when(flatRepository.save(any(Flat.class))).thenReturn(flat);
+        when(flatRepository.findById(anyLong())).thenReturn(Optional.of(flat));
+        when(tenantService.getTenant(anyLong())).thenReturn(tenant);
+
+        Flat savedFlat = flatService.assignTenantToAFlat(FLAT_ID, TENANT_ID);
+        verify(flatRepository).save(any(Flat.class));
+
+        assertThat(savedFlat.getTenant()).isNotNull();
+        assertThat(savedFlat.getTenant().getFirstName()).isEqualTo("John");
+    }
+
+    @Test
+    void FlatService_ThrowWhenAssignTenantToFlat_TenantIsAlreadyAssigned() {
+        when(flatRepository.findById(anyLong())).thenReturn(Optional.of(flat));
+
+        assertThatThrownBy(() -> flatService.assignTenantToAFlat(FLAT_ID, TENANT_ID))
+                .isInstanceOf(AlreadyExistsException.class)
+                .hasMessageContaining("already assigned");
+    }
+
+    @Test
+    void FlatService_RemoveTenantFromFlat_ReturnFlat() {
+        when(flatRepository.save(any(Flat.class))).thenReturn(flat);
+        when(flatRepository.findById(anyLong())).thenReturn(Optional.of(flat));
+
+        Flat savedFlat = flatService.removeTenantFromAFlat(2L);
+        verify(flatRepository).save(any(Flat.class));
+
+        assertThat(savedFlat.getTenant()).isNull();
+    }
+
+    @Test
+    void FlatService_ThrowWhenRemoveTenantFromFlat_TenantIsNotYetAssigned() {
+        flat.setTenant(null);
+        when(flatRepository.findById(anyLong())).thenReturn(Optional.of(flat));
+
+        assertThatThrownBy(() -> flatService.removeTenantFromAFlat(FLAT_ID))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessageContaining("not yet assigned");
+    }
+
+    @Test
+    void FlatService_AssignPersonToAFlat_ReturnFlat() {
+        when(flatRepository.save(any(Flat.class))).thenReturn(flat);
         when(flatRepository.findById(anyLong())).thenReturn(Optional.of(flat));
         when(personService.getPerson(anyLong())).thenReturn(person);
 
-        flatService.assignPersonToAFlat(FLAT_ID, PERSON_ID);
+        Flat savedFlat = flatService.assignPersonToAFlat(FLAT_ID, PERSON_ID);
         verify(flatRepository).save(any(Flat.class));
-//        verify(flat.getResidents()).add(any(Person.class));
 
-        assertThat(flat.getResidents().get(0)).isNotNull();
-        assertThat(flat.getResidents().get(0).getFirstName()).isEqualTo("John");
-        assertThat(person.getFlat().getId()).isEqualTo(FLAT_ID);
+        assertThat(savedFlat.getResidents().get(0)).isNotNull();
+        assertThat(savedFlat.getResidents().get(0).getFirstName()).isEqualTo("John");
     }
 
     @Test
@@ -273,15 +317,16 @@ class FlatServiceTest {
     }
 
     @Test
-    void FlatService_RemovePersonToAFlat_ReturnNothing() {
+    void FlatService_RemovePersonToAFlat_ReturnFlat() {
+        when(flatRepository.save(any(Flat.class))).thenReturn(flat);
         when(flatRepository.findById(anyLong())).thenReturn(Optional.of(flat));
         when(personService.getPerson(anyLong())).thenReturn(person);
 
         person.setFlat(flat);
 
-        flatService.removePersonFromFlat(FLAT_ID, PERSON_ID);
+        Flat savedFlat = flatService.removePersonFromFlat(FLAT_ID, PERSON_ID);
 
-        assertThat(flat.getResidents()).isEmpty();
+        assertThat(savedFlat.getResidents()).isEmpty();
         assertThat(person.getFlat()).isNull();
     }
 

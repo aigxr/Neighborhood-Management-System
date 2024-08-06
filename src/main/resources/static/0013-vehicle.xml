@@ -12,6 +12,7 @@
             <column name="engine" type="varchar(50)"/>
             <column name="a_length" type="float"/>
             <column name="b_length" type="float"/>
+            <column name="is_assigned" type="bit"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>
