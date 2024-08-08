@@ -83,8 +83,7 @@ class BlockControllerTest {
 
         response.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name", is(blockDto.getName())))
-                .andExpect(jsonPath("$.neighborhoodId", is(1)))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.neighborhoodId", is(1)));
     }
 
     @Test
@@ -98,8 +97,7 @@ class BlockControllerTest {
 
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is(blockDto.getName())))
-                .andExpect(jsonPath("$.neighborhoodId", is(1)))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.neighborhoodId", is(1)));
     }
 
     @Test
@@ -112,8 +110,7 @@ class BlockControllerTest {
 
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name", is(blockDto.getName())))
-                .andExpect(jsonPath("$[0].neighborhoodId", is(1)))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$[0].neighborhoodId", is(1)));
     }
 
     @Test
@@ -126,8 +123,7 @@ class BlockControllerTest {
 
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is(blockDto.getName())))
-                .andExpect(jsonPath("$.neighborhoodId", is(1)))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.neighborhoodId", is(1)));
     }
 
     @Test

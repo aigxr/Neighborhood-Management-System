@@ -71,8 +71,7 @@ class VehicleControllerTest {
 
         response.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name", CoreMatchers.notNullValue()))
-                .andExpect(jsonPath("$.name", CoreMatchers.is("Car")))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.name", CoreMatchers.is("Car")));
     }
 
     @Test
@@ -85,8 +84,7 @@ class VehicleControllerTest {
 
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", CoreMatchers.notNullValue()))
-                .andExpect(jsonPath("$.name", CoreMatchers.is("Car")))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.name", CoreMatchers.is("Car")));
     }
 
     @Test
@@ -96,8 +94,7 @@ class VehicleControllerTest {
         ResultActions response = mockMvc.perform(delete("/delete/vehicle/" + VEHICLE_ID)
                 .contentType(MediaType.APPLICATION_JSON));
 
-        response.andExpect(status().isOk())
-                .andDo(MockMvcResultHandlers.print());
+        response.andExpect(status().isOk());
     }
 
     // get the same shi as others
