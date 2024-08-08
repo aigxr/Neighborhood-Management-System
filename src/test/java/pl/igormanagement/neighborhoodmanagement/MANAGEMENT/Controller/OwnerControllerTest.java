@@ -77,8 +77,7 @@ class OwnerControllerTest {
 
         response.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.firstName", CoreMatchers.is("Igor")))
-                .andExpect(jsonPath("$.lastName", CoreMatchers.is("Nowak")))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.lastName", CoreMatchers.is("Nowak")));
     }
 
     @Test
@@ -92,8 +91,7 @@ class OwnerControllerTest {
 
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName", CoreMatchers.is("Igor")))
-                .andExpect(jsonPath("$.lastName", CoreMatchers.is("Nowak")))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.lastName", CoreMatchers.is("Nowak")));
     }
 
     @Test
@@ -105,8 +103,7 @@ class OwnerControllerTest {
 
         verify(ownerService).deleteOwner(anyLong());
 
-        response.andExpect(status().isOk())
-                .andDo(MockMvcResultHandlers.print());
+        response.andExpect(status().isOk());
 
     }
 
@@ -127,8 +124,7 @@ class OwnerControllerTest {
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.firstName", CoreMatchers.is("Igor")))
-                .andExpect(jsonPath("$.lastName", CoreMatchers.is("Nowak")))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.lastName", CoreMatchers.is("Nowak")));
     }
 
 
@@ -143,7 +139,6 @@ class OwnerControllerTest {
 
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].firstName", CoreMatchers.is("Igor")))
-                .andExpect(jsonPath("$[0].lastName", CoreMatchers.is("Nowak")))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$[0].lastName", CoreMatchers.is("Nowak")));
     }
 }

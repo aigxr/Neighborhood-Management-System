@@ -98,8 +98,7 @@ class NeighborhoodControllerTest {
                 .andExpect(jsonPath("$.developerId", CoreMatchers.is(1)))
                 .andExpect(jsonPath("$.name", CoreMatchers.is(neighborhoodDto.getName())))
                 .andExpect(jsonPath("$.city", CoreMatchers.is(neighborhoodDto.getCity())))
-                .andExpect(jsonPath("$.address", CoreMatchers.is(neighborhoodDto.getAddress())))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.address", CoreMatchers.is(neighborhoodDto.getAddress())));
     }
 
     @Test
@@ -112,8 +111,7 @@ class NeighborhoodControllerTest {
         ResultActions response = mockMvc.perform(get("/neighborhoods")
                 .contentType(MediaType.APPLICATION_JSON));
 
-        response.andExpect(status().isOk())
-                .andDo(MockMvcResultHandlers.print());
+        response.andExpect(status().isOk());
     }
 
     @Test
@@ -128,8 +126,7 @@ class NeighborhoodControllerTest {
 
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()", CoreMatchers.is(1)))
-                .andExpect(jsonPath("$[0].developerId", CoreMatchers.is(1))) // that's how you test list
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$[0].developerId", CoreMatchers.is(1))); // that's how you test list
     }
 
     @Test
@@ -142,8 +139,7 @@ class NeighborhoodControllerTest {
 
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.developerId", CoreMatchers.is(1)))
-                .andExpect(jsonPath("$.name", CoreMatchers.is(neighborhoodDto.getName())))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.name", CoreMatchers.is(neighborhoodDto.getName())));
     }
 
     @Test
@@ -159,8 +155,7 @@ class NeighborhoodControllerTest {
                 .andExpect(jsonPath("$.developerId", CoreMatchers.is(1)))
                 .andExpect(jsonPath("$.name", CoreMatchers.is(neighborhoodDto.getName())))
                 .andExpect(jsonPath("$.city", CoreMatchers.is(neighborhoodDto.getCity())))
-                .andExpect(jsonPath("$.address", CoreMatchers.is(neighborhoodDto.getAddress())))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.address", CoreMatchers.is(neighborhoodDto.getAddress())));
     }
 
     @Test

@@ -88,8 +88,7 @@ class DeveloperControllerTest {
                 .andExpect(jsonPath("$.lastName", CoreMatchers.is(developerDto.getLastName())))
                 .andExpect(jsonPath("$.pesel", CoreMatchers.is(developerDto.getPesel())))
                 .andExpect(jsonPath("$.address", CoreMatchers.is(developerDto.getAddress())))
-                .andExpect(jsonPath("$.birthDate", CoreMatchers.is(developerDto.getBirthDate().toString()))) // needs to be tostring
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.birthDate", CoreMatchers.is(developerDto.getBirthDate().toString()))); // needs to be tostring
     }
 
     @Test
@@ -99,8 +98,7 @@ class DeveloperControllerTest {
         ResultActions response = mockMvc.perform(get("/developer")
                 .contentType(MediaType.APPLICATION_JSON));
 
-        response.andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(MockMvcResultHandlers.print());
+        response.andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
@@ -111,8 +109,7 @@ class DeveloperControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(developerDto)));
 
-        response.andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(MockMvcResultHandlers.print());
+        response.andExpect(MockMvcResultMatchers.status().isOk());
     }
 
 
@@ -129,8 +126,7 @@ class DeveloperControllerTest {
                 .andExpect(jsonPath("$.lastName", CoreMatchers.is(developerDto.getLastName())))
                 .andExpect(jsonPath("$.pesel", CoreMatchers.is(developerDto.getPesel())))
                 .andExpect(jsonPath("$.address", CoreMatchers.is(developerDto.getAddress())))
-                .andExpect(jsonPath("$.birthDate", CoreMatchers.is(developerDto.getBirthDate().toString())))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.birthDate", CoreMatchers.is(developerDto.getBirthDate().toString())));
     }
 
     @Test

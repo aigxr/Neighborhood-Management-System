@@ -76,8 +76,7 @@ class TenantControllerTest {
         response.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", CoreMatchers.notNullValue()))
                 .andExpect(jsonPath("$.firstName", CoreMatchers.is("Igor")))
-                .andExpect(jsonPath("$.lastName", CoreMatchers.is("Nowak")))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.lastName", CoreMatchers.is("Nowak")));
     }
 
     @Test
@@ -91,8 +90,7 @@ class TenantControllerTest {
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", CoreMatchers.notNullValue()))
                 .andExpect(jsonPath("$.firstName", CoreMatchers.is("Igor")))
-                .andExpect(jsonPath("$.lastName", CoreMatchers.is("Nowak")))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.lastName", CoreMatchers.is("Nowak")));
     }
 
     @Test
@@ -102,8 +100,7 @@ class TenantControllerTest {
         ResultActions response = mockMvc.perform(delete("/delete/tenant/" + TENANT_ID)
                 .contentType(MediaType.APPLICATION_JSON));
 
-        response.andExpect(status().isOk())
-                .andDo(MockMvcResultHandlers.print());
+        response.andExpect(status().isOk());
     }
 
     @Test
@@ -124,8 +121,7 @@ class TenantControllerTest {
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", CoreMatchers.notNullValue()))
                 .andExpect(jsonPath("$.firstName", CoreMatchers.is("Igor")))
-                .andExpect(jsonPath("$.lastName", CoreMatchers.is("Nowak")))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.lastName", CoreMatchers.is("Nowak")));
     }
 
     @Test
@@ -139,8 +135,7 @@ class TenantControllerTest {
                 .andExpect(jsonPath("$[0].id", CoreMatchers.notNullValue()))
                 .andExpect(jsonPath("$[0].firstName", CoreMatchers.is("Igor")))
                 .andExpect(jsonPath("$[0].lastName", CoreMatchers.is("Nowak")))
-                .andExpect(jsonPath("$.size()", CoreMatchers.is(1)))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.size()", CoreMatchers.is(1)));
     }
 
 }

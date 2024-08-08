@@ -85,8 +85,7 @@ class ParkingControllerTest {
         response.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", CoreMatchers.is(1)))
                 .andExpect(jsonPath("$.name", CoreMatchers.is("A")))
-                .andExpect(jsonPath("$.room.alength", CoreMatchers.is(3.0)))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.room.alength", CoreMatchers.is(3.0)));
     }
 
     @Test
@@ -100,8 +99,7 @@ class ParkingControllerTest {
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", CoreMatchers.is(1)))
                 .andExpect(jsonPath("$.name", CoreMatchers.is("A")))
-                .andExpect(jsonPath("$.room.alength", CoreMatchers.is(3.0)))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.room.alength", CoreMatchers.is(3.0)));
     }
 
     @Test
@@ -113,8 +111,7 @@ class ParkingControllerTest {
 
         verify(parkingService).deleteParking(anyLong());
 
-        response.andExpect(status().isOk())
-                .andDo(MockMvcResultHandlers.print());
+        response.andExpect(status().isOk());
     }
 
     @Test
@@ -129,8 +126,7 @@ class ParkingControllerTest {
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", CoreMatchers.is(1)))
                 .andExpect(jsonPath("$.name", CoreMatchers.is("A")))
-                .andExpect(jsonPath("$.room.alength", CoreMatchers.is(3.0)))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.room.alength", CoreMatchers.is(3.0)));
     }
 
     @Test
@@ -146,7 +142,6 @@ class ParkingControllerTest {
                 .andExpect(jsonPath("$[0].id", CoreMatchers.is(1)))
                 .andExpect(jsonPath("$[0].name", CoreMatchers.is("A")))
                 .andExpect(jsonPath("$[0].room.alength", CoreMatchers.is(3.0)))
-                .andExpect(jsonPath("$[0].room.size()", CoreMatchers.is(4)))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$[0].room.size()", CoreMatchers.is(4)));
     }
 }

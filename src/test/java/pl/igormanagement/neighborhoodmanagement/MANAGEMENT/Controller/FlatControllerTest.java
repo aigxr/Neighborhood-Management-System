@@ -119,8 +119,7 @@ class FlatControllerTest {
         response.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.name", is("Apartment")))
-                .andExpect(jsonPath("$.room.alength", is(30.0)))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.room.alength", is(30.0)));
 
     }
 
@@ -137,8 +136,7 @@ class FlatControllerTest {
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.name", is("Apartment")))
-                .andExpect(jsonPath("$.room.alength", is(30.0)))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.room.alength", is(30.0)));
     }
 
     @Test
@@ -166,8 +164,7 @@ class FlatControllerTest {
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id", is(1)))
                 .andExpect(jsonPath("$[0].name", is("Apartment")))
-                .andExpect(jsonPath("$[0].room.alength", is(30.0)))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$[0].room.alength", is(30.0)));
     }
 
     @Test
@@ -182,8 +179,7 @@ class FlatControllerTest {
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.name", is("Apartment")))
-                .andExpect(jsonPath("$.room.alength", is(30.0)))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.room.alength", is(30.0)));
     }
 
     @Test

@@ -86,8 +86,7 @@ class FileControllerTest {
         response.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.title", is("New Title")))
-                .andExpect(jsonPath("$.document", is("others.pdf")))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.document", is("others.pdf")));
 
     }
 
@@ -105,8 +104,7 @@ class FileControllerTest {
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.title", is("New Title")))
-                .andExpect(jsonPath("$.document", is("others.pdf")))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.document", is("others.pdf")));
 
     }
 
@@ -119,8 +117,7 @@ class FileControllerTest {
 
         verify(fileService).deleteFile(anyLong());
 
-        response.andExpect(status().isOk())
-                .andDo(MockMvcResultHandlers.print());
+        response.andExpect(status().isOk());
 
     }
 
@@ -137,8 +134,7 @@ class FileControllerTest {
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.title", is("New Title")))
-                .andExpect(jsonPath("$.document", is("others.pdf")))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$.document", is("others.pdf")));
 
     }
 
@@ -154,8 +150,7 @@ class FileControllerTest {
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id", is(1)))
                 .andExpect(jsonPath("$[0].title", is("New Title")))
-                .andExpect(jsonPath("$[0].document", is("others.pdf")))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$[0].document", is("others.pdf")));
     }
 
     @Test
@@ -175,8 +170,7 @@ class FileControllerTest {
 
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id", is(1)))
-                .andExpect(jsonPath("$[0].title", is("Response Title")))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(jsonPath("$[0].title", is("Response Title")));
 
     }
 }
